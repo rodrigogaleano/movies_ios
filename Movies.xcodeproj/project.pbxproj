@@ -8,17 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		D60FC29C2C5C648C002C97BE /* MoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FC29B2C5C648C002C97BE /* MoviesApp.swift */; };
-		D60FC29E2C5C648C002C97BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FC29D2C5C648C002C97BE /* ContentView.swift */; };
+		D60FC29E2C5C648C002C97BE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FC29D2C5C648C002C97BE /* HomeView.swift */; };
 		D60FC2A02C5C648E002C97BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D60FC29F2C5C648E002C97BE /* Assets.xcassets */; };
 		D60FC2A32C5C648E002C97BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D60FC2A22C5C648E002C97BE /* Preview Assets.xcassets */; };
+		D60FC2AC2C5C6563002C97BE /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FC2AB2C5C6563002C97BE /* HomeViewModel.swift */; };
+		D60FC2AF2C5C686F002C97BE /* HomeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FC2AE2C5C686F002C97BE /* HomeFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D60FC2982C5C648C002C97BE /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D60FC29B2C5C648C002C97BE /* MoviesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesApp.swift; sourceTree = "<group>"; };
-		D60FC29D2C5C648C002C97BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D60FC29D2C5C648C002C97BE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D60FC29F2C5C648E002C97BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D60FC2A22C5C648E002C97BE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D60FC2AB2C5C6563002C97BE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		D60FC2AE2C5C686F002C97BE /* HomeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +55,8 @@
 		D60FC29A2C5C648C002C97BE /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				D60FC2A92C5C651A002C97BE /* Features */,
 				D60FC29B2C5C648C002C97BE /* MoviesApp.swift */,
-				D60FC29D2C5C648C002C97BE /* ContentView.swift */,
 				D60FC29F2C5C648E002C97BE /* Assets.xcassets */,
 				D60FC2A12C5C648E002C97BE /* Preview Content */,
 			);
@@ -65,6 +69,32 @@
 				D60FC2A22C5C648E002C97BE /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D60FC2A92C5C651A002C97BE /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				D60FC2AA2C5C6525002C97BE /* Home */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		D60FC2AA2C5C6525002C97BE /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D60FC2AD2C5C6863002C97BE /* DI */,
+				D60FC29D2C5C648C002C97BE /* HomeView.swift */,
+				D60FC2AB2C5C6563002C97BE /* HomeViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		D60FC2AD2C5C6863002C97BE /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				D60FC2AE2C5C686F002C97BE /* HomeFactory.swift */,
+			);
+			path = DI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +167,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D60FC29E2C5C648C002C97BE /* ContentView.swift in Sources */,
+				D60FC29E2C5C648C002C97BE /* HomeView.swift in Sources */,
+				D60FC2AF2C5C686F002C97BE /* HomeFactory.swift in Sources */,
+				D60FC2AC2C5C6563002C97BE /* HomeViewModel.swift in Sources */,
 				D60FC29C2C5C648C002C97BE /* MoviesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
