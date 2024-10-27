@@ -9,7 +9,9 @@ import SwiftUI
 
 enum HomeFactory {
     static func home() -> some View {
-        let viewModel = HomeViewModel()
+        let moviesRepository = MoviesRepository(routes: MovieRoutes())
+        let viewModel = HomeViewModel(moviesRepository: moviesRepository)
+        
         return HomeView(viewModel: viewModel)
     }
 }

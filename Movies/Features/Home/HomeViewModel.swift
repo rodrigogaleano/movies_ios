@@ -7,8 +7,31 @@
 
 import Foundation
 
-class HomeViewModel: HomeViewModelProtocol {
+class HomeViewModel: HomeViewModelProtocol, ObservableObject {
+    
+    // MARK: - Public
+    
+    @Published var movies: [Movie] = []
+    
+    // MARK: - Init
+    
+    private let moviesRepository: MoviesRepositoryProtocol
+    
+    init(moviesRepository: MoviesRepositoryProtocol) {
+        self.moviesRepository = moviesRepository
+    }
+    
+    // MARK: - Public Methods
+    
     func loadMovies() {
-        print("Entrou aqui!")
+        moviesRepository.fetchNowPlayingMovies(
+            success: { [weak self] movies in
+                self?.movies = movies
+                print("Filmes carregados: \(movies)")
+            },
+            failure: { error in
+                print("Erro ao carregar filmes: \(error)")
+            }
+        )
     }
 }

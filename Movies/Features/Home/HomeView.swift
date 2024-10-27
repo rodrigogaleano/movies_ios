@@ -16,9 +16,18 @@ struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     
     var body: some View {
-        Text("Hello, world!")
-            .onAppear {
-                viewModel.loadMovies()
-            }
+        VStack(alignment: .leading) {
+            Text("Movies").font(.largeTitle.bold())
+            MoviesSectionView(title: "Now Playing", movies: viewModel.movies)
+        }
+        .padding()
+        .onAppear {
+            viewModel.loadMovies()
+        }
     }
 }
+
+#Preview {
+    HomeFactory.home()
+}
+
