@@ -13,6 +13,8 @@ typealias Failure = ((String) -> Void)
 
 protocol MoviesRepositoryProtocol {
     func fetchNowPlayingMovies(success: Success?, failure: Failure?)
+    func fetchPopularMovies(success: Success?, failure: Failure?)
+    func fetchTopRatedMovies(success: Success?, failure: Failure?)
 }
 
 class MoviesRepository: MoviesRepositoryProtocol {
@@ -44,5 +46,40 @@ class MoviesRepository: MoviesRepositoryProtocol {
             }
         }
     }
+    
+    func fetchPopularMovies(success: Success?, failure: Failure?) {
+        routes.getPopularMovies { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let results = try response.map(MovieResult.self)
+                    let movies = results.results
+                    
+                    success?(movies)
+                } catch {
+                    failure?("Error decoding data.")
+                }
+            case let .failure(error):
+                failure?(error.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchTopRatedMovies(success: Success?, failure: Failure?) {
+        routes.getTopRatedMovies { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let results = try response.map(MovieResult.self)
+                    let movies = results.results
+                    
+                    success?(movies)
+                } catch {
+                    failure?("Error decoding data.")
+                }
+            case let .failure(error):
+                failure?(error.localizedDescription)
+            }
+        }
+    }
 }
-

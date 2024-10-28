@@ -8,19 +8,37 @@
 import SwiftUI
 
 protocol HomeViewModelProtocol: ObservableObject {
+    var nowPlayingMoviesViewModels: [any MovieItemProtocol] { get }
+    var popularMoviesViewModels: [any MovieItemProtocol] { get }
+    var topRatedMoviesViewModels: [any MovieItemProtocol] { get }
+    
     func loadMovies()
 }
 
-struct HomeView: View {
+struct HomeView<ViewModel: HomeViewModelProtocol>: View {
     
-    @ObservedObject var viewModel: HomeViewModel
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Movies").font(.largeTitle.bold())
-            MoviesSectionView(title: "Now Playing", movies: viewModel.movies)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Movies")
+                    .font(.largeTitle.bold())
+                MoviesSectionView(
+                    title: "Now Playing",
+                    viewModels: viewModel.nowPlayingMoviesViewModels
+                )
+                MoviesSectionView(
+                    title: "Top Rated",
+                    viewModels: viewModel.topRatedMoviesViewModels
+                )
+                MoviesSectionView(
+                    title: "Popular",
+                    viewModels: viewModel.popularMoviesViewModels
+                )
+            }
+            .padding()
         }
-        .padding()
         .onAppear {
             viewModel.loadMovies()
         }

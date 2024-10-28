@@ -8,10 +8,9 @@
 import Foundation
 
 class HomeViewModel: HomeViewModelProtocol, ObservableObject {
-    
-    // MARK: - Public
-    
-    @Published var movies: [Movie] = []
+    @Published private var nowPlayingMovies: [Movie] = []
+    @Published private var popularMovies: [Movie] = []
+    @Published private var topRatedMovies: [Movie] = []
     
     // MARK: - Init
     
@@ -21,13 +20,57 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
         self.moviesRepository = moviesRepository
     }
     
+    // MARK: - Public Getters
+    
+    var nowPlayingMoviesViewModels: [any MovieItemProtocol] {
+        nowPlayingMovies.map { MovieItemViewModel(movie: $0) }
+    }
+    
+    var popularMoviesViewModels: [any MovieItemProtocol] {
+        popularMovies.map { MovieItemViewModel(movie: $0) }
+    }
+    
+    var topRatedMoviesViewModels: [any MovieItemProtocol] {
+        topRatedMovies.map { MovieItemViewModel(movie: $0) }
+    }
+
+    
     // MARK: - Public Methods
     
     func loadMovies() {
+        fetchNowPlayingMovies()
+        fetchPopularMovies()
+        fetchTopRatedMovies()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func fetchNowPlayingMovies() {
         moviesRepository.fetchNowPlayingMovies(
             success: { [weak self] movies in
-                self?.movies = movies
-                print("Filmes carregados: \(movies)")
+                self?.nowPlayingMovies = movies
+            },
+            failure: { error in
+                print("Erro ao carregar filmes: \(error)")
+            }
+        )
+    }
+    
+    private func fetchPopularMovies() {
+        moviesRepository.fetchPopularMovies(
+            success: { [weak self] movies in
+                self?.popularMovies = movies
+            },
+            failure: { error in
+                print("Erro ao carregar filmes: \(error)")
+            }
+        )
+    }
+    
+    private func fetchTopRatedMovies() {
+        moviesRepository.fetchTopRatedMovies(
+            success: { [weak self] movies in
+                self?.topRatedMovies = movies
             },
             failure: { error in
                 print("Erro ao carregar filmes: \(error)")
