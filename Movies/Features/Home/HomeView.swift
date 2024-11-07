@@ -30,6 +30,7 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
                 TabView(selection: $currentCarouselIndex) {
                     ForEach(viewModel.nowPlayingMoviesViewModels.indices, id: \.self) { index in
                         CarouselItemView(viewModel: viewModel.nowPlayingMoviesViewModels[index])
+                            .tag(index)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .always))
@@ -50,7 +51,7 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
             
             Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { _ in
                 withAnimation(.easeInOut(duration: 1)) {
-                    
+                    currentCarouselIndex = (currentCarouselIndex + 1) % viewModel.nowPlayingMoviesViewModels.count
                 }
             }
         }
