@@ -7,12 +7,30 @@
 
 import Foundation
 
-class MovieItemViewModel: ObservableObject, MovieItemProtocol {
-    @Published var title: String
-    @Published var imageUrl: URL?
+
+class MovieItemViewModel: MovieItemViewModelProtocol {
+    
+    // MARK: - Private Properties
+    
+    private var movie: Movie
+    
+    // MARK: - Init
 
     init(movie: Movie) {
-        self.title = movie.title
-        self.imageUrl = movie.imageUrl
+        self.movie = movie
+    }
+    
+    // MARK: - Public Getters
+    
+    var title: String {
+        movie.title
+    }
+    
+    var imageUrl: URL? {
+        movie.posterUrl
+    }
+    
+    var movieId: Int {
+        movie.id
     }
 }

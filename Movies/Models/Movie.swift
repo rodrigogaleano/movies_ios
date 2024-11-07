@@ -15,16 +15,26 @@ struct Movie: Decodable {
     var id: Int
     var title: String
     var posterPath: String
+    var backdropPath: String
     
     enum CodingKeys: String, CodingKey {
         case id
         case title
         case posterPath = "poster_path"
+        case backdropPath = "backdrop_path"
     }
     
-    var imageUrl: URL? {
+    var posterUrl: URL? {
         guard
-            let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+            let url = URL(string: "https://image.tmdb.org/t/p/w400\(posterPath)")
+        else { return nil }
+        
+        return url
+    }
+    
+    var backdropUrl: URL? {
+        guard
+            let url = URL(string: "https://image.tmdb.org/t/p/w400\(backdropPath)")
         else { return nil }
         
         return url

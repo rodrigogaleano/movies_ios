@@ -9,12 +9,14 @@ import SwiftUI
 
 struct MoviesSectionView: View {
     var title: String
-    var viewModels: [any MovieItemProtocol]
+    var viewModels: [any MovieItemViewModelProtocol]
     
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
                 .font(.title)
+                .fontWeight(.semibold)
+                .padding()
             ScrollView(.horizontal, showsIndicators: false) {
                 if viewModels.isEmpty {
                     ProgressView()
@@ -22,6 +24,8 @@ struct MoviesSectionView: View {
                     HStack(spacing: 12) {
                         ForEach(viewModels.indices, id: \.self) { index in
                             MovieItemView(viewModel: viewModels[index])
+                                .padding(.leading, index == 0 ? 16 : 0)
+                                .padding(.trailing, index == viewModels.count - 1 ? 16 : 0)
                         }
                     }
                 }
@@ -33,15 +37,23 @@ struct MoviesSectionView: View {
 
 #Preview {
     let movies = [
-        Movie(id: 1, title: "Movie 1", posterPath: "/7fR3KxswtY8OHHZuOUB9td58CRX.jpg"),
-        Movie(id: 2, title: "Movie 2", posterPath: "/9gK0r7FYwP51cJvH0WYQ8xPcih4.jpg"),
-        Movie(id: 3, title: "Movie 3", posterPath: "/l6gq4Wc9W0RSmGGN21eFQ9XzA9M.jpg"),
-        Movie(id: 4, title: "Movie 4", posterPath: "/oBhmmsDh0DumEuYOV4fPRzpQQyX.jpg"),
-        Movie(id: 5, title: "Movie 5", posterPath: "/sYqzSklV2ptKGAthd6qYb1mWteD.jpg"),
-        Movie(id: 6, title: "Movie 6", posterPath: "/6gI1y0CLQuG0GiXq5BBqZbfAfNy.jpg"),
+        Movie(
+            id: 1, 
+            title: "Movie 1",
+            posterPath: "/7fR3KxswtY8OHHZuOUB9td58CRX.jpg",
+            backdropPath: "https://image.tmdb.org/t/p/original/gwj4R8Uy1GwejKqfofREKI9Jh7L.jpg"
+        ),
+        Movie(
+            id: 2,
+            title: "Movie 2",
+            posterPath: "/7fR3KxswtY8OHHZuOUB9td58CRX.jpg",
+            backdropPath: "https://image.tmdb.org/t/p/original/gwj4R8Uy1GwejKqfofREKI9Jh7L.jpg"
+        )
     ]
     
-    let viewModels: [MovieItemViewModel] = movies.map { MovieItemViewModel(movie: $0) }
+    let viewModels: [MovieItemViewModel] = movies.map {
+        MovieItemViewModel(movie: $0)
+    }
     
-    return MoviesSectionView(title: "Now Playing", viewModels: viewModels)
+    MoviesSectionView(title: "Now Playing", viewModels: viewModels)
 }

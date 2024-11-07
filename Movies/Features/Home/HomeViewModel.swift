@@ -8,9 +8,9 @@
 import Foundation
 
 class HomeViewModel: HomeViewModelProtocol, ObservableObject {
-    @Published private var nowPlayingMovies: [Movie] = []
     @Published private var popularMovies: [Movie] = []
     @Published private var topRatedMovies: [Movie] = []
+    @Published private var nowPlayingMovies: [Movie] = []
     
     // MARK: - Init
     
@@ -22,19 +22,18 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
     
     // MARK: - Public Getters
     
-    var nowPlayingMoviesViewModels: [any MovieItemProtocol] {
-        nowPlayingMovies.map { MovieItemViewModel(movie: $0) }
+    var nowPlayingMoviesViewModels: [any CarouselItemProtocol] {
+        nowPlayingMovies.map { CarouselItemViewModel(movie: $0) }
     }
     
-    var popularMoviesViewModels: [any MovieItemProtocol] {
+    var popularMoviesViewModels: [any MovieItemViewModelProtocol] {
         popularMovies.map { MovieItemViewModel(movie: $0) }
     }
     
-    var topRatedMoviesViewModels: [any MovieItemProtocol] {
+    var topRatedMoviesViewModels: [any MovieItemViewModelProtocol] {
         topRatedMovies.map { MovieItemViewModel(movie: $0) }
     }
 
-    
     // MARK: - Public Methods
     
     func loadMovies() {

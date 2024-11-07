@@ -11,7 +11,9 @@ import SwiftUI
 struct MoviesApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeFactory.home()
+            NavigationStack {
+                HomeFactory.home()
+            }
         }
     }
 }
