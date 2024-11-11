@@ -150,7 +150,7 @@
 				D60FC2A92C5C651A002C97BE /* Features */,
 				D60B9CA12CCEEFD50081EA71 /* Models */,
 				D60FC29B2C5C648C002C97BE /* MoviesApp.swift */,
-				D6FEC7C12CE23318008560B4 /* Components */,
+				D6FEC7C42CE24673008560B4 /* Support */,
 				D60FC29F2C5C648E002C97BE /* Assets.xcassets */,
 				D60FC2A12C5C648E002C97BE /* Preview Content */,
 			);
@@ -223,9 +223,19 @@
 		D6FEC7C12CE23318008560B4 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D6FF1BB42CCF219300778CF5 /* MovieItem */,
 				D6FEC7C22CE23344008560B4 /* DefaultColoredBackground.swift */,
+				D6FF1BB02CCEFFFF00778CF5 /* MoviesSectionView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		D6FEC7C42CE24673008560B4 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				D6FEC7C12CE23318008560B4 /* Components */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		D6FF1BAA2CCEFC8700778CF5 /* Frameworks */ = {
@@ -239,8 +249,6 @@
 			isa = PBXGroup;
 			children = (
 				D6085A822CDBFBA500780372 /* CarouselItem */,
-				D6FF1BB02CCEFFFF00778CF5 /* MoviesSectionView.swift */,
-				D6FF1BB42CCF219300778CF5 /* MovieItem */,
 			);
 			path = Components;
 			sourceTree = "<group>";

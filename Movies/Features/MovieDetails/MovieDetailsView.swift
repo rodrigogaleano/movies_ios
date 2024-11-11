@@ -14,10 +14,10 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var overview: String { get }
     var releaseYear: String { get }
     var voteAverage: String { get }
-    var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
-    
     
     var backdropURL: URL? { get }
+    
+    var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     
     func loadContent()
 }
