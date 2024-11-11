@@ -14,11 +14,12 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var overview: String { get }
     var releaseYear: String { get }
     var voteAverage: String { get }
+    var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     
     
     var backdropURL: URL? { get }
     
-    func loadMovieDetails()
+    func loadContent()
 }
 
 struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
@@ -58,14 +59,18 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                     .padding(.horizontal)
                     Text(viewModel.overview)
                         .padding(.horizontal)
+                    MoviesSectionView(
+                        title: "Similar Movies",
+                        viewModels: viewModel.similarMoviesViewModels
+                    )
                 }
                 .foregroundStyle(.white)
                 .onAppear {
-                    viewModel.loadMovieDetails()
+                    viewModel.loadContent()
                 }
             }
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .top)
     }
 }
 

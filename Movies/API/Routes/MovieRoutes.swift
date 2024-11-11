@@ -12,6 +12,7 @@ protocol MovieRoutesProtocol {
     func getTopRatedMovies(completion: @escaping Completion)
     func getNowPlayingMovies(completion: @escaping Completion)
     func getMovieDetails(id: Int, completion: @escaping Completion)
+    func getSimilarMovies(id: Int, completion: @escaping Completion)
 }
 
 struct MovieRoutes {
@@ -20,6 +21,7 @@ struct MovieRoutes {
         case popularMovies
         case topRatedMovies
         case nowPlayingMovies
+        case similarMovies(id: Int)
         
         var path: String {
             switch self {
@@ -31,6 +33,8 @@ struct MovieRoutes {
                 return "/movie/top_rated"
             case let .movieDetails(id):
                 return "/movie/\(id)"
+            case let .similarMovies(id):
+                return "/movie/\(id)/similar"
             }
         }
         
@@ -57,5 +61,9 @@ extension MovieRoutes: MovieRoutesProtocol {
     
     func getMovieDetails(id: Int, completion: @escaping Moya.Completion) {
         provider.request(target: .movieDetails(id: id), completion: completion)
+    }
+    
+    func getSimilarMovies(id: Int, completion: @escaping Moya.Completion) {
+        provider.request(target: .similarMovies(id: id), completion: completion)
     }
 }

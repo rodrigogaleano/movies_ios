@@ -17,9 +17,10 @@ protocol MoviesRepositoryProtocol {
     func fetchTopRatedMovies(success: Success?, failure: Failure?)
     func fetchNowPlayingMovies(success: Success?, failure: Failure?)
     func fetchMovieDetails(id: Int, success: MovieSuccess?, failure: Failure?)
+    func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?)
 }
 
-class MoviesRepository: MoviesRepositoryProtocol {
+class MoviesRepository {
     // MARK: - Private Properties
     
     private let routes: MovieRoutesProtocol
@@ -30,6 +31,9 @@ class MoviesRepository: MoviesRepositoryProtocol {
         self.routes = routes
     }
     
+}
+
+extension MoviesRepository: MoviesRepositoryProtocol {
     func fetchNowPlayingMovies(success: Success?, failure: Failure?) {
         routes.getNowPlayingMovies { result in
             switch result {
@@ -99,4 +103,23 @@ class MoviesRepository: MoviesRepositoryProtocol {
             }
         }
     }
+    
+    func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?) {
+        routes.getSimilarMovies(id: id) { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let results = try response.map(MovieResult.self)
+                    let movies = results.results
+                    
+                    success?(movies)
+                } catch {
+                    failure?("Error decoding data.")
+                }
+            case let .failure(error):
+                failure?(error.localizedDescription)
+            }
+        }
+    }
+    
 }

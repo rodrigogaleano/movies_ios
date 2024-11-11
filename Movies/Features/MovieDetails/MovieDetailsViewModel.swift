@@ -9,6 +9,7 @@ import Foundation
 
 class MovieDetailsViewModel: ObservableObject {
     @Published var movie: Movie?
+    @Published var similarMovies: [Movie] = []
     
     let movieId: Int
     let repository: MoviesRepositoryProtocol
@@ -61,11 +62,35 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
         movie?.genres?.first?.name ?? ""
     }
     
-    func loadMovieDetails() {
+    var similarMoviesViewModels: [any MovieItemViewModelProtocol] {
+        similarMovies.map { MovieItemViewModel(movie: $0) }
+    }
+    
+    func loadContent() {
+        loadMovieDetails()
+        loadSimilarMovies()
+    }
+    
+   
+}
+
+extension MovieDetailsViewModel {
+    private func loadMovieDetails() {
         repository.fetchMovieDetails(id: movieId) { movie in
             self.movie = movie
         } failure: { error in
             // TODO: Tratar o erro
         }
+    }
+    
+    private func loadSimilarMovies() {
+        repository.fetchSimilarMovies(
+            id: movieId,
+            success: { similarMovies in
+                self.similarMovies = similarMovies
+            }, failure: { error in
+                // TODO: Tratar erro
+            }
+        )
     }
 }
