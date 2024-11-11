@@ -36,22 +36,7 @@ struct MoviesSectionView: View {
 }
 
 #Preview {
-    let movies = [
-        Movie(
-            id: 1, 
-            title: "Movie 1",
-            posterPath: "/7fR3KxswtY8OHHZuOUB9td58CRX.jpg",
-            backdropPath: "https://image.tmdb.org/t/p/original/gwj4R8Uy1GwejKqfofREKI9Jh7L.jpg"
-        ),
-        Movie(
-            id: 2,
-            title: "Movie 2",
-            posterPath: "/7fR3KxswtY8OHHZuOUB9td58CRX.jpg",
-            backdropPath: "https://image.tmdb.org/t/p/original/gwj4R8Uy1GwejKqfofREKI9Jh7L.jpg"
-        )
-    ]
-    
-    let viewModels: [MovieItemViewModel] = movies.map {
+    let viewModels: [MovieItemViewModel] = moviesMock.map {
         MovieItemViewModel(movie: $0)
     }
     

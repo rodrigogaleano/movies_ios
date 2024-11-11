@@ -25,4 +25,8 @@ class CarouselItemViewModel: CarouselItemProtocol {
     var imageUrl: URL? {
         movie.backdropUrl
     }
+    
+    var movieTitle: String {
+        movie.title
+    }
 }

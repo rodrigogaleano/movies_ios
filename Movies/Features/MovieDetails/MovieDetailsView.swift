@@ -7,12 +7,68 @@
 
 import SwiftUI
 
-struct MovieDetailsView: View {
+protocol MovieDetailViewModelProtocol: ObservableObject {
+    var genre: String { get }
+    var title: String { get }
+    var runtime: String { get }
+    var overview: String { get }
+    var releaseYear: String { get }
+    var voteAverage: String { get }
+    
+    
+    var backdropURL: URL? { get }
+    
+    func loadMovieDetails()
+}
+
+struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
+    @ObservedObject var viewModel: ViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        DefaultColoredBackground {
+            ScrollView {
+                VStack(alignment: .center, spacing: 20) {
+                    AsyncImage(url: viewModel.backdropURL) { image in
+                        image
+                            .resizable()
+                            .mask {
+                                LinearGradient(
+                                    colors: [.black, .clear],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            }
+                    } placeholder: {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                    }
+                    .frame(height: 300)
+                    Text(viewModel.title)
+                        .font(.title)
+                        .bold()
+                        .padding(.horizontal)
+                    HStack(spacing: 10) {
+                        DetailBadgeView(text: viewModel.genre)
+                        DetailBadgeView(text: viewModel.releaseYear)
+                        DetailBadgeView(text: viewModel.runtime)
+                        DetailBadgeView(text: viewModel.voteAverage, icon: Image(systemName: "star.fill"))
+                        Spacer()
+                    }
+                    .font(.subheadline)
+                    .padding(.horizontal)
+                    Text(viewModel.overview)
+                        .padding(.horizontal)
+                }
+                .foregroundStyle(.white)
+                .onAppear {
+                    viewModel.loadMovieDetails()
+                }
+            }
+        }
+        .ignoresSafeArea()
     }
 }
 
 #Preview {
-    MovieDetailsView()
+    MovieDetailsFactory.MovieDetails(movieId: 278)
 }

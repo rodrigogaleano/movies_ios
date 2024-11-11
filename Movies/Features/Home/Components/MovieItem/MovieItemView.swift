@@ -45,14 +45,7 @@ struct MovieItemView: View {
 }
 
 #Preview {
-    let movie = Movie(
-        id: 1,
-        title: "Movie Title",
-        posterPath: "/path/to/poster.jpg",
-        backdropPath: "https://image.tmdb.org/t/p/w400/gwj4R8Uy1GwejKqfofREKI9Jh7L.jpg"
-    )
-    
-    let viewModel = MovieItemViewModel(movie: movie)
+    let viewModel = MovieItemViewModel(movie: moviesMock[0])
     
     MovieItemView(viewModel: viewModel)
 }

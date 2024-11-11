@@ -9,6 +9,9 @@ import SwiftUI
 
 enum MovieDetailsFactory {
     static func MovieDetails(movieId: Int) -> some View {
-        return MovieDetailsView()
+        let repository = MoviesRepository(routes: MovieRoutes())
+        let viewModel = MovieDetailsViewModel(movieId: movieId, repository: repository)
+        
+        return MovieDetailsView(viewModel: viewModel)
     }
 }

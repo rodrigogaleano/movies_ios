@@ -10,6 +10,7 @@ import SwiftUI
 protocol CarouselItemProtocol {
     var movieId: Int { get }
     var imageUrl: URL? { get }
+    var movieTitle: String { get }
 }
 
 struct CarouselItemView: View {
@@ -19,14 +20,22 @@ struct CarouselItemView: View {
         NavigationLink {
             MovieDetailsFactory.MovieDetails(movieId: viewModel.movieId)
         } label: {
-            AsyncImage(url: viewModel.imageUrl) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .cornerRadius(8)
-            } placeholder: {
-                ProgressView()
+            ZStack(alignment: .topLeading) {
+                AsyncImage(url: viewModel.imageUrl) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .cornerRadius(8)
+                } placeholder: {
+                    ProgressView()
+                }
+                Text(viewModel.movieTitle)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .padding()
             }
+            .frame(height: 200)
         }
     }
 }
@@ -34,12 +43,7 @@ struct CarouselItemView: View {
 #Preview {
     CarouselItemView(
         viewModel: CarouselItemViewModel(
-            movie: Movie(
-                id: 1,
-                title: "Título",
-                posterPath: "https://image.tmdb.org/t/p/original/gCI2AeMV4IHSewhJkzsur5MEp6R.jpg",
-                backdropPath: "https://image.tmdb.org/t/p/original/gwj4R8Uy1GwejKqfofREKI9Jh7L.jpg"
-            )
+            movie: moviesMock[0]
         )
     )
 }

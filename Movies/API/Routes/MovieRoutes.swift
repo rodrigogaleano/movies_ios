@@ -8,16 +8,18 @@
 import Moya
 
 protocol MovieRoutesProtocol {
-    func getNowPlayingMovies(completion: @escaping Completion)
     func getPopularMovies(completion: @escaping Completion)
     func getTopRatedMovies(completion: @escaping Completion)
+    func getNowPlayingMovies(completion: @escaping Completion)
+    func getMovieDetails(id: Int, completion: @escaping Completion)
 }
 
 struct MovieRoutes {
     enum Target: APITarget {
-        case nowPlayingMovies
+        case movieDetails(id: Int)
         case popularMovies
         case topRatedMovies
+        case nowPlayingMovies
         
         var path: String {
             switch self {
@@ -27,8 +29,9 @@ struct MovieRoutes {
                 return "/movie/popular"
             case .topRatedMovies:
                 return "/movie/top_rated"
+            case let .movieDetails(id):
+                return "/movie/\(id)"
             }
-            
         }
         
         var method: Moya.Method { .get }
@@ -50,5 +53,9 @@ extension MovieRoutes: MovieRoutesProtocol {
     
     func getTopRatedMovies(completion: @escaping Completion) {
         provider.request(target: .topRatedMovies, completion: completion)
+    }
+    
+    func getMovieDetails(id: Int, completion: @escaping Moya.Completion) {
+        provider.request(target: .movieDetails(id: id), completion: completion)
     }
 }

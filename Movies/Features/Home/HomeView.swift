@@ -21,37 +21,42 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Now Playing")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .padding(.horizontal)
-                TabView(selection: $currentCarouselIndex) {
-                    ForEach(viewModel.nowPlayingMoviesViewModels.indices, id: \.self) { index in
-                        CarouselItemView(viewModel: viewModel.nowPlayingMoviesViewModels[index])
-                            .tag(index)
+        DefaultColoredBackground {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Now Playing")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal)
+                    TabView(selection: $currentCarouselIndex) {
+                        ForEach(viewModel.nowPlayingMoviesViewModels.indices, id: \.self) { index in
+                            CarouselItemView(viewModel: viewModel.nowPlayingMoviesViewModels[index])
+                                .tag(index)
+                        }
                     }
+                    .tabViewStyle(.page(indexDisplayMode: .always))
+                    .frame(height: 200)
+                    MoviesSectionView(
+                        title: "Top Rated",
+                        viewModels: viewModel.topRatedMoviesViewModels
+                    )
+                    MoviesSectionView(
+                        title: "Popular",
+                        viewModels: viewModel.popularMoviesViewModels
+                    )
                 }
-                .tabViewStyle(.page(indexDisplayMode: .always))
-                .frame(height: 200)
-                MoviesSectionView(
-                    title: "Top Rated",
-                    viewModels: viewModel.topRatedMoviesViewModels
-                )
-                MoviesSectionView(
-                    title: "Popular",
-                    viewModels: viewModel.popularMoviesViewModels
-                )
+                .foregroundStyle(.white)
             }
         }
-        .navigationTitle("Movies")
         .onAppear {
             viewModel.loadMovies()
-            
             Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { _ in
                 withAnimation(.easeInOut(duration: 1)) {
-                    currentCarouselIndex = (currentCarouselIndex + 1) % viewModel.nowPlayingMoviesViewModels.count
+                    if currentCarouselIndex == viewModel.nowPlayingMoviesViewModels.count - 1 {
+                        currentCarouselIndex = 0
+                    } else {
+                        currentCarouselIndex += 1
+                    }
                 }
             }
         }
