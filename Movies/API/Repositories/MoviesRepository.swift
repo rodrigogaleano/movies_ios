@@ -10,6 +10,7 @@ import Foundation
 
 typealias Success = (([Movie]) -> Void)
 typealias MovieSuccess = ((Movie) -> Void)
+typealias CastMemberSuccess = (([CastMember]) -> Void)
 typealias Failure = ((String) -> Void)
 
 protocol MoviesRepositoryProtocol {
@@ -18,6 +19,7 @@ protocol MoviesRepositoryProtocol {
     func fetchNowPlayingMovies(success: Success?, failure: Failure?)
     func fetchMovieDetails(id: Int, success: MovieSuccess?, failure: Failure?)
     func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?)
+    func fetchCastMembers(id: Int, success: CastMemberSuccess?, failure: Failure?)
 }
 
 class MoviesRepository {
@@ -122,4 +124,20 @@ extension MoviesRepository: MoviesRepositoryProtocol {
         }
     }
     
+    func fetchCastMembers(id: Int, success: CastMemberSuccess?, failure: Failure?) {
+        routes.getMovieCast(id: id) { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let castMembers = try response.map(CastMemberResult.self)
+                    
+                    success?(castMembers.cast)
+                } catch {
+                    failure?("Error decoding data.")
+                }
+            case let .failure(error):
+                failure?(error.localizedDescription)
+            }
+        }
+    }
 }

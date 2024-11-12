@@ -16,6 +16,7 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var voteAverage: String { get }
     
     var backdropURL: URL? { get }
+    var castMembersImageURLs: [URL] { get }
     
     var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     
@@ -28,7 +29,7 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
     var body: some View {
         DefaultColoredBackground {
             ScrollView {
-                VStack(alignment: .center, spacing: 20) {
+                VStack(alignment: .leading, spacing: 20) {
                     AsyncImage(url: viewModel.backdropURL) { image in
                         image
                             .resizable()
@@ -59,6 +60,28 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                     .padding(.horizontal)
                     Text(viewModel.overview)
                         .padding(.horizontal)
+                    Text("Cast")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal)
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(viewModel.castMembersImageURLs.indices, id: \.self) { index in
+                                AsyncImage(url: viewModel.castMembersImageURLs[index]) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 92, height: 92)
+                                        .cornerRadius(8)
+                                } placeholder: {
+                                    ProgressView()
+                                        .frame(width: 92, height: 92)
+                                }
+                                .padding(.leading, index == 0 ? 16 : 0)
+                                .padding(.trailing, index == viewModel.castMembersImageURLs.count - 1 ? 16 : 0)
+                            }
+                        }
+                    }
                     MoviesSectionView(
                         title: "Similar Movies",
                         viewModels: viewModel.similarMoviesViewModels

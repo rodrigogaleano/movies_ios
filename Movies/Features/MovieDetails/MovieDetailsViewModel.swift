@@ -10,6 +10,7 @@ import Foundation
 class MovieDetailsViewModel: ObservableObject {
     @Published var movie: Movie?
     @Published var similarMovies: [Movie] = []
+    @Published var castMembers: [CastMember] = []
     
     let movieId: Int
     let repository: MoviesRepositoryProtocol
@@ -66,18 +67,29 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
         similarMovies.map { MovieItemViewModel(movie: $0) }
     }
     
+    var castMembersImageURLs: [URL] {
+        castMembers.compactMap { $0.profileImageURL }
+    }
+
     func loadContent() {
         loadMovieDetails()
+        loadMovieCast()
         loadSimilarMovies()
     }
-    
-   
 }
 
 extension MovieDetailsViewModel {
     private func loadMovieDetails() {
         repository.fetchMovieDetails(id: movieId) { movie in
             self.movie = movie
+        } failure: { error in
+            // TODO: Tratar o erro
+        }
+    }
+    
+    private func loadMovieCast() {
+        repository.fetchCastMembers(id: movieId) { castMember in
+            self.castMembers = castMember
         } failure: { error in
             // TODO: Tratar o erro
         }

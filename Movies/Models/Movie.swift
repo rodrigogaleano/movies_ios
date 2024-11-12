@@ -15,8 +15,8 @@ struct Movie: Decodable {
     var id: Int
     var title: String
     var overview: String
-    var posterPath: String
-    var backdropPath: String
+    var posterPath: String?
+    var backdropPath: String?
     var voteAverage: Double
     var releaseDate: String
     var runtime: Int?
@@ -36,6 +36,7 @@ struct Movie: Decodable {
     
     var posterUrl: URL? {
         guard
+            let posterPath = posterPath,
             let url = URL(string: "https://image.tmdb.org/t/p/w400\(posterPath)")
         else { return nil }
         
@@ -44,6 +45,7 @@ struct Movie: Decodable {
     
     var backdropUrl: URL? {
         guard
+            let backdropPath = backdropPath,
             let url = URL(string: "https://image.tmdb.org/t/p/w400\(backdropPath)")
         else { return nil }
         

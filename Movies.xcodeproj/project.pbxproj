@@ -23,6 +23,7 @@
 		D634E1D12CD52B33009F0F7E /* MovieDetailsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D634E1D02CD52B33009F0F7E /* MovieDetailsFactory.swift */; };
 		D634E1D32CD52BAF009F0F7E /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D634E1D22CD52BAF009F0F7E /* MovieDetailsView.swift */; };
 		D63A18BD2CDD5E4C007A40B8 /* MovieDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63A18BC2CDD5E4C007A40B8 /* MovieDetailsViewModel.swift */; };
+		D696B8182CE3A0160042620E /* CastMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D696B8172CE3A0160042620E /* CastMember.swift */; };
 		D6CB04712CDE8C2B009BCF4C /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CB04702CDE8C2A009BCF4C /* Genre.swift */; };
 		D6FEC7BC2CE18030008560B4 /* DetailBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FEC7BB2CE18025008560B4 /* DetailBadgeView.swift */; };
 		D6FEC7C32CE23352008560B4 /* DefaultColoredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FEC7C22CE23344008560B4 /* DefaultColoredBackground.swift */; };
@@ -51,6 +52,7 @@
 		D634E1D02CD52B33009F0F7E /* MovieDetailsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsFactory.swift; sourceTree = "<group>"; };
 		D634E1D22CD52BAF009F0F7E /* MovieDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsView.swift; sourceTree = "<group>"; };
 		D63A18BC2CDD5E4C007A40B8 /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
+		D696B8172CE3A0160042620E /* CastMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastMember.swift; sourceTree = "<group>"; };
 		D6CB04702CDE8C2A009BCF4C /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D6FEC7BB2CE18025008560B4 /* DetailBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBadgeView.swift; sourceTree = "<group>"; };
 		D6FEC7C22CE23344008560B4 /* DefaultColoredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultColoredBackground.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			children = (
 				D6CB04702CDE8C2A009BCF4C /* Genre.swift */,
 				D60B9CA72CCEF2190081EA71 /* Movie.swift */,
+				D696B8172CE3A0160042620E /* CastMember.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				D634E1D32CD52BAF009F0F7E /* MovieDetailsView.swift in Sources */,
 				D60B9CAB2CCEF4290081EA71 /* MoviesRepository.swift in Sources */,
 				D60FC29C2C5C648C002C97BE /* MoviesApp.swift in Sources */,
+				D696B8182CE3A0160042620E /* CastMember.swift in Sources */,
 				D6FF1BA92CCEFB8100778CF5 /* APIProvider.swift in Sources */,
 				D60B9CA62CCEF03C0081EA71 /* MovieRoutes.swift in Sources */,
 				D60B9C9B2CCEEBA10081EA71 /* APITarget.swift in Sources */,
