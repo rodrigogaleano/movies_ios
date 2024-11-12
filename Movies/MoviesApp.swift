@@ -12,7 +12,16 @@ struct MoviesApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                HomeFactory.home()
+                TabView {
+                    HomeFactory.home()
+                        .tabItem {
+                            Label("Home", systemImage: "house")
+                        }
+                    Text("Search")
+                        .tabItem {
+                            Label("Search", systemImage: "magnifyingglass")
+                        }
+                }
             }
         }
     }

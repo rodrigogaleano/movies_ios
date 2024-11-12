@@ -26,7 +26,6 @@
 		D696B8182CE3A0160042620E /* CastMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D696B8172CE3A0160042620E /* CastMember.swift */; };
 		D6CB04712CDE8C2B009BCF4C /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6CB04702CDE8C2A009BCF4C /* Genre.swift */; };
 		D6FEC7BC2CE18030008560B4 /* DetailBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FEC7BB2CE18025008560B4 /* DetailBadgeView.swift */; };
-		D6FEC7C32CE23352008560B4 /* DefaultColoredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FEC7C22CE23344008560B4 /* DefaultColoredBackground.swift */; };
 		D6FF1BA92CCEFB8100778CF5 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1BA82CCEFB8100778CF5 /* APIProvider.swift */; };
 		D6FF1BAC2CCEFC8700778CF5 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = D6FF1BAB2CCEFC8700778CF5 /* Moya */; };
 		D6FF1BB12CCEFFFF00778CF5 /* MoviesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1BB02CCEFFFF00778CF5 /* MoviesSectionView.swift */; };
@@ -55,7 +54,6 @@
 		D696B8172CE3A0160042620E /* CastMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastMember.swift; sourceTree = "<group>"; };
 		D6CB04702CDE8C2A009BCF4C /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D6FEC7BB2CE18025008560B4 /* DetailBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBadgeView.swift; sourceTree = "<group>"; };
-		D6FEC7C22CE23344008560B4 /* DefaultColoredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultColoredBackground.swift; sourceTree = "<group>"; };
 		D6FF1BA82CCEFB8100778CF5 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		D6FF1BB02CCEFFFF00778CF5 /* MoviesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesSectionView.swift; sourceTree = "<group>"; };
 		D6FF1BB52CCF21A700778CF5 /* MovieItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemView.swift; sourceTree = "<group>"; };
@@ -152,8 +150,8 @@
 				D60B9CA22CCEEFE40081EA71 /* API */,
 				D60FC2A92C5C651A002C97BE /* Features */,
 				D60B9CA12CCEEFD50081EA71 /* Models */,
-				D60FC29B2C5C648C002C97BE /* MoviesApp.swift */,
 				D6FEC7C42CE24673008560B4 /* Support */,
+				D60FC29B2C5C648C002C97BE /* MoviesApp.swift */,
 				D60FC29F2C5C648E002C97BE /* Assets.xcassets */,
 				D60FC2A12C5C648E002C97BE /* Preview Content */,
 			);
@@ -227,7 +225,6 @@
 			isa = PBXGroup;
 			children = (
 				D6FF1BB42CCF219300778CF5 /* MovieItem */,
-				D6FEC7C22CE23344008560B4 /* DefaultColoredBackground.swift */,
 				D6FF1BB02CCEFFFF00778CF5 /* MoviesSectionView.swift */,
 			);
 			path = Components;
@@ -340,7 +337,6 @@
 			files = (
 				D6FF1BB62CCF21A700778CF5 /* MovieItemView.swift in Sources */,
 				D6FF1BB12CCEFFFF00778CF5 /* MoviesSectionView.swift in Sources */,
-				D6FEC7C32CE23352008560B4 /* DefaultColoredBackground.swift in Sources */,
 				D6085A862CDBFD5000780372 /* CarouselItemViewModel.swift in Sources */,
 				D60FC29E2C5C648C002C97BE /* HomeView.swift in Sources */,
 				D60B9C992CCEE80A0081EA71 /* APIHost.swift in Sources */,

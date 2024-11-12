@@ -32,7 +32,9 @@ struct CarouselItemView: View {
                 Text(viewModel.movieTitle)
                     .font(.title2)
                     .fontWeight(.semibold)
+                    .multilineTextAlignment(.leading)
                     .foregroundStyle(.white)
+                    .background(Color.black.opacity(0.2).blur(radius: 10))
                     .padding()
             }
             .frame(height: 200)

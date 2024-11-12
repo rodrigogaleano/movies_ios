@@ -16,11 +16,10 @@ struct DetailBadgeView: View {
             icon
                 .foregroundStyle(.yellow)
             Text(text)
-                .foregroundStyle(.white)
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
-        .background(Color.white.opacity(0.2))
+        .background(Color.black.opacity(0.1))
         .cornerRadius(10)
     }
 }
