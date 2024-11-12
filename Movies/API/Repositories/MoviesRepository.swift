@@ -20,6 +20,7 @@ protocol MoviesRepositoryProtocol {
     func fetchMovieDetails(id: Int, success: MovieSuccess?, failure: Failure?)
     func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?)
     func fetchCastMembers(id: Int, success: CastMemberSuccess?, failure: Failure?)
+    func fetchSearchedMovies(query: String, success: Success?, failure: Failure?)
 }
 
 class MoviesRepository {
@@ -132,6 +133,23 @@ extension MoviesRepository: MoviesRepositoryProtocol {
                     let castMembers = try response.map(CastMemberResult.self)
                     
                     success?(castMembers.cast)
+                } catch {
+                    failure?("Error decoding data.")
+                }
+            case let .failure(error):
+                failure?(error.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchSearchedMovies(query: String, success: Success?, failure: Failure?) {
+        routes.getSearchedMovies(query: query) { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let searchedMovies = try response.map(MovieResult.self)
+                    
+                    success?(searchedMovies.results)
                 } catch {
                     failure?("Error decoding data.")
                 }

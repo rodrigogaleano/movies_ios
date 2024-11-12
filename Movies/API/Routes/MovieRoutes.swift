@@ -14,6 +14,7 @@ protocol MovieRoutesProtocol {
     func getMovieCast(id: Int, completion: @escaping Completion)
     func getMovieDetails(id: Int, completion: @escaping Completion)
     func getSimilarMovies(id: Int, completion: @escaping Completion)
+    func getSearchedMovies(query: String, completion: @escaping Completion)
 }
 
 struct MovieRoutes {
@@ -24,6 +25,7 @@ struct MovieRoutes {
         case nowPlayingMovies
         case similarMovies(id: Int)
         case movieCast(id: Int)
+        case searchedMovies(query: String)
         
         var path: String {
             switch self {
@@ -39,12 +41,21 @@ struct MovieRoutes {
                 return "/movie/\(id)/similar"
             case let .movieCast(id):
                 return "/movie/\(id)/credits"
+            case .searchedMovies:
+                return "/search/movie"
             }
         }
         
         var method: Moya.Method { .get }
         
-        var task: Moya.Task { .requestPlain }
+        var task: Task {
+            switch self {
+            case let .searchedMovies(query):
+                return .requestParameters(parameters: ["query": query], encoding: URLEncoding.queryString)
+            default:
+                return .requestPlain
+            }
+        }
     }
     
     private let provider = APIProvider<Target>()
@@ -73,5 +84,9 @@ extension MovieRoutes: MovieRoutesProtocol {
     
     func getMovieCast(id: Int, completion: @escaping Moya.Completion) {
         provider.request(target: .movieCast(id: id), completion: completion)
+    }
+    
+    func getSearchedMovies(query: String, completion: @escaping Moya.Completion) {
+        provider.request(target: .searchedMovies(query: query), completion: completion)
     }
 }

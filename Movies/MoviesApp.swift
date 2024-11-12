@@ -17,7 +17,7 @@ struct MoviesApp: App {
                         .tabItem {
                             Label("Home", systemImage: "house")
                         }
-                    Text("Search")
+                    SearchFactory.search()
                         .tabItem {
                             Label("Search", systemImage: "magnifyingglass")
                         }

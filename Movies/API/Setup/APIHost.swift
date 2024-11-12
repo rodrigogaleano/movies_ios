@@ -21,7 +21,6 @@ enum APIHost {
     }
     
     static var apiKey: String {
-        return "?api_key=88ee9533acb6d4f3193bab7b9d06e012"
-    }
-    
+        return "88ee9533acb6d4f3193bab7b9d06e012"
+    }   
 }
