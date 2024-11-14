@@ -9,19 +9,27 @@ import SwiftUI
 
 protocol SearchViewProtocol: ObservableObject {
     var searchText: String { get set }
+    var searchMoviesViewModels: [SearchedMovieItemProtocol] { get }
 }
 
 struct SearchView<ViewModel: SearchViewProtocol>: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             TextField("Search for a movie", text: Binding(
                 get: { viewModel.searchText },
                 set: { viewModel.searchText = $0 }
             ))
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .padding()
+            ScrollView {
+                ForEach(viewModel.searchMoviesViewModels.indices, id: \.self) { index in
+                    let currentViewModel = viewModel.searchMoviesViewModels[index]
+                    
+                    SearchedMovieItemView(viewModel: currentViewModel)
+                }
+            }
         }
     }
 }

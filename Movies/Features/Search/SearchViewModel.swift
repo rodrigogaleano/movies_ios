@@ -11,6 +11,16 @@ class SearchViewModel: SearchViewProtocol {
     // MARK: - Private Properties
     
     private var timer: Timer?
+    @Published private var searchedMovies: [Movie] = []
+    
+    
+    // MARK: - Init
+    
+    let moviesRepository: MoviesRepositoryProtocol
+    
+    init(moviesRepository: MoviesRepositoryProtocol) {
+        self.moviesRepository = moviesRepository
+    }
     
     // MARK: - Public Properties
     
@@ -20,12 +30,8 @@ class SearchViewModel: SearchViewProtocol {
         }
     }
     
-    // MARK: - Init
-    
-    let moviesRepository: MoviesRepositoryProtocol
-    
-    init(moviesRepository: MoviesRepositoryProtocol) {
-        self.moviesRepository = moviesRepository
+    var searchMoviesViewModels: [any SearchedMovieItemProtocol] {
+        searchedMovies.map { SearchedMovieItemViewModel(movie: $0) }
     }
     
     // MARK: - Private Methods
@@ -36,11 +42,11 @@ class SearchViewModel: SearchViewProtocol {
             guard !self.searchText.isEmpty else { return }
             
             self.moviesRepository.fetchSearchedMovies(query: self.searchText) { searchedMovies in
-                print(searchedMovies)
+                self.searchedMovies = searchedMovies
             } failure: { error in
                 // TODO: Tratar o erro
             }
-
+            
         }
     }
 }
