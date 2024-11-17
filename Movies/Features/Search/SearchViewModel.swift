@@ -11,7 +11,8 @@ class SearchViewModel: SearchViewProtocol, ObservableObject {
     // MARK: - Private Properties
     
     private var timer: Timer?
-    @Published  var isLoading: Bool = false
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String = ""
     @Published private var searchedMovies: [Movie] = []
     
     
@@ -39,28 +40,17 @@ class SearchViewModel: SearchViewProtocol, ObservableObject {
     // MARK: - Private Methods
     
     private func getSearchedMovies() {
-        print("Starting search for: \(searchText)") // Deb
-    
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-            guard !self.searchText.isEmpty else {
-                print("Search text is empty")
-                return
-            }
+            guard !self.searchText.isEmpty else { return }
             self.isLoading = true
-            print("Loading started...") // Debuggingugging
-            
-   
-            
+            self.errorMessage = ""
             self.moviesRepository.fetchSearchedMovies(query: self.searchText) { searchedMovies in
                 self.searchedMovies = searchedMovies
-                print("Movies fetched: \(searchedMovies.count)") // Debugging
             } failure: { error in
-                // TODO: Handle error
-                print("Error fetching movies: \(error)")
+                self.errorMessage = error
             } onComplete: {
                 self.isLoading = false
-                print("Loading complete.") // Debugging
             }
         }
     }

@@ -16,6 +16,7 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var overview: String { get }
     var releaseYear: String { get }
     var voteAverage: String { get }
+    var errorMessage: String { get }
     
     var backdropURL: URL? { get }
     var castMembersImageURLs: [URL] { get }
@@ -32,6 +33,8 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
         Group {
             if viewModel.isLoading {
                 LoadingView()
+            }  else if !viewModel.errorMessage.isEmpty {
+                ErrorView(errorMessage: viewModel.errorMessage)
             } else {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {

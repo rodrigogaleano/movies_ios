@@ -11,6 +11,7 @@ class MovieDetailsViewModel: ObservableObject {
     @Published private var isCastMembersLoading: Bool = true
     @Published private var isMovieDetailsLoading: Bool = true
     @Published private var isSimilarMoviesLoading: Bool = true
+    @Published var error: String = ""
     @Published var movie: Movie?
     @Published var similarMovies: [Movie] = []
     @Published var castMembers: [CastMember] = []
@@ -25,6 +26,10 @@ class MovieDetailsViewModel: ObservableObject {
 }
 
 extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
+    var errorMessage: String {
+        self.error
+    }
+    
     var isLoading: Bool {
         isCastMembersLoading || isMovieDetailsLoading || isSimilarMoviesLoading
     }
@@ -90,7 +95,7 @@ extension MovieDetailsViewModel {
         repository.fetchMovieDetails(id: movieId) { movie in
             self.movie = movie
         } failure: { error in
-            // TODO: Tratar o erro
+            self.error = error
         } onComplete: {
             self.isMovieDetailsLoading = false
         }
@@ -100,7 +105,7 @@ extension MovieDetailsViewModel {
         repository.fetchCastMembers(id: movieId) { castMember in
             self.castMembers = castMember
         } failure: { error in
-            // TODO: Tratar o erro
+            self.error = error
         } onComplete: {
             self.isCastMembersLoading = false
         }
@@ -112,7 +117,7 @@ extension MovieDetailsViewModel {
             success: { similarMovies in
                 self.similarMovies = similarMovies
             }, failure: { error in
-                // TODO: Tratar erro
+                self.error = error
             }, onComplete: {
                 self.isSimilarMoviesLoading = false
             }

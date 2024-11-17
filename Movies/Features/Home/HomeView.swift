@@ -9,6 +9,7 @@ import SwiftUI
 
 protocol HomeViewModelProtocol: ObservableObject {
     var isLoading: Bool { get }
+    var errorMessage: String { get }
     var nowPlayingMoviesViewModels: [any CarouselItemProtocol] { get }
     var popularMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     var topRatedMoviesViewModels: [any MovieItemViewModelProtocol] { get }
@@ -28,6 +29,9 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
             Group {
                 if viewModel.isLoading {
                     LoadingView()
+                }
+                else if !viewModel.errorMessage.isEmpty {
+                    ErrorView(errorMessage: viewModel.errorMessage)
                 } else {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 20) {

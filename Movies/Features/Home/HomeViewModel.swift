@@ -8,6 +8,7 @@
 import Foundation
 
 class HomeViewModel: HomeViewModelProtocol, ObservableObject {
+    @Published var errorMessage: String = ""
     @Published private var isPopularLoading: Bool = true
     @Published private var isTopRatedLoading: Bool = true
     @Published private var isNowPlayingLoading: Bool = true
@@ -57,7 +58,7 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
                 self?.nowPlayingMovies = movies
             },
             failure: { error in
-                print("Erro ao carregar filmes: \(error)")
+                self.errorMessage = error
             },
             onComplete: {
                 self.isNowPlayingLoading = false
@@ -71,7 +72,7 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
                 self?.popularMovies = movies
             },
             failure: { error in
-                print("Erro ao carregar filmes: \(error)")
+                self.errorMessage = error
             },
             onComplete: {
                 self.isPopularLoading = false
@@ -85,7 +86,7 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
                 self?.topRatedMovies = movies
             },
             failure: { error in
-                print("Erro ao carregar filmes: \(error)")
+                self.errorMessage = error
             },
             onComplete: {
                 self.isTopRatedLoading = false

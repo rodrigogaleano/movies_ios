@@ -9,6 +9,7 @@ import SwiftUI
 
 protocol SearchViewProtocol: ObservableObject {
     var isLoading: Bool { get }
+    var errorMessage: String { get }
     var searchText: String { get set }
     var searchMoviesViewModels: [SearchedMovieItemProtocol] { get }
 }
@@ -31,6 +32,7 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
                 else if viewModel.searchText.isEmpty {
                     InstructionView()
                 }
+                else if !viewModel.errorMessage.isEmpty { ErrorView(errorMessage: viewModel.errorMessage) }
                 else if viewModel.searchMoviesViewModels.isEmpty {
                     NoResultsView()
                 }
