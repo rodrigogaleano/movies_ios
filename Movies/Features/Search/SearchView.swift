@@ -8,6 +8,7 @@
 import SwiftUI
 
 protocol SearchViewProtocol: ObservableObject {
+    var isLoading: Bool { get }
     var searchText: String { get set }
     var searchMoviesViewModels: [SearchedMovieItemProtocol] { get }
 }
@@ -16,20 +17,37 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        VStack(alignment: .leading) {
-            TextField("Search for a movie", text: Binding(
-                get: { viewModel.searchText },
-                set: { viewModel.searchText = $0 }
-            ))
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
-            ScrollView {
-                ForEach(viewModel.searchMoviesViewModels.indices, id: \.self) { index in
-                    let currentViewModel = viewModel.searchMoviesViewModels[index]
-                    
-                    SearchedMovieItemView(viewModel: currentViewModel)
+        NavigationStack {
+            VStack(spacing: 20) {
+                TextField("Search for a movie", text: Binding(
+                    get: { viewModel.searchText },
+                    set: { viewModel.searchText = $0 }
+                ))
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.top)
+                if viewModel.isLoading {
+                    LoadingView()
+                }
+                else if viewModel.searchText.isEmpty {
+                    InstructionView()
+                }
+                else if viewModel.searchMoviesViewModels.isEmpty {
+                    NoResultsView()
+                }
+                else {
+                    ScrollView {
+                        ForEach(viewModel.searchMoviesViewModels.indices, id: \.self) { index in
+                            let currentViewModel = viewModel.searchMoviesViewModels[index]
+                            
+                            SearchedMovieItemView(viewModel: currentViewModel)
+                        }
+                    }
                 }
             }
+            .padding()
+            .navigationTitle("Search")
+            .toolbarTitleDisplayMode(.inlineLarge)
+            .edgesIgnoringSafeArea(.bottom) 
         }
     }
 }

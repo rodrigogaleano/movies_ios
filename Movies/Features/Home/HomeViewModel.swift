@@ -8,6 +8,9 @@
 import Foundation
 
 class HomeViewModel: HomeViewModelProtocol, ObservableObject {
+    @Published private var isPopularLoading: Bool = true
+    @Published private var isTopRatedLoading: Bool = true
+    @Published private var isNowPlayingLoading: Bool = true
     @Published private var popularMovies: [Movie] = []
     @Published private var topRatedMovies: [Movie] = []
     @Published private var nowPlayingMovies: [Movie] = []
@@ -33,6 +36,10 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
     var topRatedMoviesViewModels: [any MovieItemViewModelProtocol] {
         topRatedMovies.map { MovieItemViewModel(movie: $0) }
     }
+    
+    var isLoading: Bool {
+        isPopularLoading || isTopRatedLoading || isNowPlayingLoading
+    }
 
     // MARK: - Public Methods
     
@@ -51,6 +58,9 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
             },
             failure: { error in
                 print("Erro ao carregar filmes: \(error)")
+            },
+            onComplete: {
+                self.isNowPlayingLoading = false
             }
         )
     }
@@ -62,6 +72,9 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
             },
             failure: { error in
                 print("Erro ao carregar filmes: \(error)")
+            },
+            onComplete: {
+                self.isPopularLoading = false
             }
         )
     }
@@ -73,6 +86,9 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
             },
             failure: { error in
                 print("Erro ao carregar filmes: \(error)")
+            },
+            onComplete: {
+                self.isTopRatedLoading = false
             }
         )
     }

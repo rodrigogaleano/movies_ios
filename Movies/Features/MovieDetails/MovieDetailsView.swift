@@ -8,6 +8,8 @@
 import SwiftUI
 
 protocol MovieDetailViewModelProtocol: ObservableObject {
+    var isLoading: Bool { get }
+    
     var genre: String { get }
     var title: String { get }
     var runtime: String { get }
@@ -27,64 +29,70 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                AsyncImage(url: viewModel.backdropURL) { image in
-                    image
-                        .resizable()
-                        .mask {
-                            LinearGradient(
-                                colors: [.black, .clear],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
+        Group {
+            if viewModel.isLoading {
+                LoadingView()
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        AsyncImage(url: viewModel.backdropURL) { image in
+                            image
+                                .resizable()
+                                .mask {
+                                    LinearGradient(
+                                        colors: [.black, .clear],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                }
+                        } placeholder: {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
                         }
-                } placeholder: {
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
-                }
-                .frame(height: 300)
-                Text(viewModel.title)
-                    .font(.title)
-                    .bold()
-                    .padding(.horizontal)
-                HStack(spacing: 10) {
-                    DetailBadgeView(text: viewModel.genre)
-                    DetailBadgeView(text: viewModel.releaseYear)
-                    DetailBadgeView(text: viewModel.runtime)
-                    DetailBadgeView(text: viewModel.voteAverage, icon: Image(systemName: "star.fill"))
-                    Spacer()
-                }
-                .font(.subheadline)
-                .padding(.horizontal)
-                Text(viewModel.overview)
-                    .padding(.horizontal)
-                Text("Cast")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .padding(.horizontal)
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(viewModel.castMembersImageURLs.indices, id: \.self) { index in
-                            AsyncImage(url: viewModel.castMembersImageURLs[index]) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 92, height: 92)
-                                    .cornerRadius(8)
-                            } placeholder: {
-                                ProgressView()
-                                    .frame(width: 92, height: 92)
+                        .frame(height: 300)
+                        Text(viewModel.title)
+                            .font(.title)
+                            .bold()
+                            .padding(.horizontal)
+                        HStack(spacing: 10) {
+                            DetailBadgeView(text: viewModel.genre)
+                            DetailBadgeView(text: viewModel.releaseYear)
+                            DetailBadgeView(text: viewModel.runtime)
+                            DetailBadgeView(text: viewModel.voteAverage, icon: Image(systemName: "star.fill"))
+                            Spacer()
+                        }
+                        .font(.subheadline)
+                        .padding(.horizontal)
+                        Text(viewModel.overview)
+                            .padding(.horizontal)
+                        Text("Cast")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal)
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(viewModel.castMembersImageURLs.indices, id: \.self) { index in
+                                    AsyncImage(url: viewModel.castMembersImageURLs[index]) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 92, height: 92)
+                                            .cornerRadius(8)
+                                    } placeholder: {
+                                        ProgressView()
+                                            .frame(width: 92, height: 92)
+                                    }
+                                    .padding(.leading, index == 0 ? 16 : 0)
+                                    .padding(.trailing, index == viewModel.castMembersImageURLs.count - 1 ? 16 : 0)
+                                }
                             }
-                            .padding(.leading, index == 0 ? 16 : 0)
-                            .padding(.trailing, index == viewModel.castMembersImageURLs.count - 1 ? 16 : 0)
                         }
+                        MoviesSectionView(
+                            title: "Similar Movies",
+                            viewModels: viewModel.similarMoviesViewModels
+                        )
                     }
                 }
-                MoviesSectionView(
-                    title: "Similar Movies",
-                    viewModels: viewModel.similarMoviesViewModels
-                )
             }
         }
         .navigationTitle("Movie Details")

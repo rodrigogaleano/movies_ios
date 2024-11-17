@@ -11,17 +11,15 @@ import SwiftUI
 struct MoviesApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                TabView {
-                    HomeFactory.home()
-                        .tabItem {
-                            Label("Home", systemImage: "house")
-                        }
-                    SearchFactory.search()
-                        .tabItem {
-                            Label("Search", systemImage: "magnifyingglass")
-                        }
-                }
+            TabView {
+                HomeFactory.home()
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                SearchFactory.search()
+                    .tabItem {
+                        Label("Search", systemImage: "magnifyingglass")
+                    }
             }
         }
     }

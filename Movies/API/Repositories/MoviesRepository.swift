@@ -14,13 +14,13 @@ typealias CastMemberSuccess = (([CastMember]) -> Void)
 typealias Failure = ((String) -> Void)
 
 protocol MoviesRepositoryProtocol {
-    func fetchPopularMovies(success: Success?, failure: Failure?)
-    func fetchTopRatedMovies(success: Success?, failure: Failure?)
-    func fetchNowPlayingMovies(success: Success?, failure: Failure?)
-    func fetchMovieDetails(id: Int, success: MovieSuccess?, failure: Failure?)
-    func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?)
-    func fetchCastMembers(id: Int, success: CastMemberSuccess?, failure: Failure?)
-    func fetchSearchedMovies(query: String, success: Success?, failure: Failure?)
+    func fetchPopularMovies(success: Success?, failure: Failure?, onComplete: (() -> Void)?)
+    func fetchTopRatedMovies(success: Success?, failure: Failure?, onComplete: (() -> Void)?)
+    func fetchNowPlayingMovies(success: Success?, failure: Failure?, onComplete: (() -> Void)?)
+    func fetchMovieDetails(id: Int, success: MovieSuccess?, failure: Failure?, onComplete: (() -> Void)?)
+    func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?, onComplete: (() -> Void)?)
+    func fetchCastMembers(id: Int, success: CastMemberSuccess?, failure: Failure?, onComplete: (() -> Void)?)
+    func fetchSearchedMovies(query: String, success: Success?, failure: Failure?, onComplete: (() -> Void)?)
 }
 
 class MoviesRepository {
@@ -37,8 +37,10 @@ class MoviesRepository {
 }
 
 extension MoviesRepository: MoviesRepositoryProtocol {
-    func fetchNowPlayingMovies(success: Success?, failure: Failure?) {
+    func fetchNowPlayingMovies(success: Success?, failure: Failure?,  onComplete: (() -> Void)?) {
         routes.getNowPlayingMovies { result in
+            defer { onComplete?() }
+            
             switch result {
             case let .success(response):
                 do {
@@ -55,8 +57,10 @@ extension MoviesRepository: MoviesRepositoryProtocol {
         }
     }
     
-    func fetchPopularMovies(success: Success?, failure: Failure?) {
+    func fetchPopularMovies(success: Success?, failure: Failure?, onComplete: (() -> Void)?) {
         routes.getPopularMovies { result in
+            defer { onComplete?() }
+            
             switch result {
             case let .success(response):
                 do {
@@ -73,8 +77,10 @@ extension MoviesRepository: MoviesRepositoryProtocol {
         }
     }
     
-    func fetchTopRatedMovies(success: Success?, failure: Failure?) {
+    func fetchTopRatedMovies(success: Success?, failure: Failure?, onComplete: (() -> Void)?) {
         routes.getTopRatedMovies { result in
+            defer { onComplete?() }
+            
             switch result {
             case let .success(response):
                 do {
@@ -91,8 +97,10 @@ extension MoviesRepository: MoviesRepositoryProtocol {
         }
     }
     
-    func fetchMovieDetails(id: Int, success: MovieSuccess?, failure: Failure?) {
+    func fetchMovieDetails(id: Int, success: MovieSuccess?, failure: Failure?, onComplete: (() -> Void)?) {
         routes.getMovieDetails(id: id) { result in
+            defer { onComplete?() }
+            
             switch result {
             case let .success(response):
                 do {
@@ -107,8 +115,10 @@ extension MoviesRepository: MoviesRepositoryProtocol {
         }
     }
     
-    func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?) {
+    func fetchSimilarMovies(id: Int, success: Success?, failure: Failure?, onComplete: (() -> Void)?) {
         routes.getSimilarMovies(id: id) { result in
+            defer { onComplete?() }
+            
             switch result {
             case let .success(response):
                 do {
@@ -125,7 +135,9 @@ extension MoviesRepository: MoviesRepositoryProtocol {
         }
     }
     
-    func fetchCastMembers(id: Int, success: CastMemberSuccess?, failure: Failure?) {
+    func fetchCastMembers(id: Int, success: CastMemberSuccess?, failure: Failure?, onComplete: (() -> Void)?) {
+        defer { onComplete?() }
+        
         routes.getMovieCast(id: id) { result in
             switch result {
             case let .success(response):
@@ -142,7 +154,9 @@ extension MoviesRepository: MoviesRepositoryProtocol {
         }
     }
     
-    func fetchSearchedMovies(query: String, success: Success?, failure: Failure?) {
+    func fetchSearchedMovies(query: String, success: Success?, failure: Failure?, onComplete: (() -> Void)?) {
+        defer { onComplete?() }
+        
         routes.getSearchedMovies(query: query) { result in
             switch result {
             case let .success(response):

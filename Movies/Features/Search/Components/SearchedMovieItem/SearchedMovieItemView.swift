@@ -40,7 +40,7 @@ struct SearchedMovieItemView: View {
                 Spacer()
             }
             .frame(height: 96)
-            .padding()
+            .padding(.vertical)
         }
     }
 }
