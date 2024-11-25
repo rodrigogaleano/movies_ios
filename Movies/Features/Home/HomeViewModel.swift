@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 class HomeViewModel {
     @Published var errorMessage: String = ""
@@ -17,9 +17,9 @@ class HomeViewModel {
     @Published private var topRatedMovies: [Movie] = []
     @Published private var nowPlayingMovies: [Movie] = []
     @Published var currentCarouselIndex: Int = 0
-
-   private var carouselTimer: Timer?
-   private let carouselInterval: TimeInterval = 3.0
+    
+    private var carouselTimer: Timer?
+    private let carouselInterval: TimeInterval = 3.0
     
     private let getPopularMoviesUseCase: GetPopularMoviesUseCaseProtocol
     private let getTopRatedMoviesUseCase: GetTopRatedMoviesUseCaseProtocol
@@ -60,20 +60,21 @@ extension HomeViewModel: HomeViewModelProtocol {
     }
     
     func startCarousel() {
-           stopCarousel()
-           carouselTimer = Timer.scheduledTimer(withTimeInterval: carouselInterval, repeats: true) { [weak self] _ in
-               guard let self = self else { return }
-               let nextIndex = (self.currentCarouselIndex + 1) % self.nowPlayingMoviesViewModels.count
-               DispatchQueue.main.async {
-                   self.currentCarouselIndex = nextIndex
-               }
-           }
-       }
-
-       func stopCarousel() {
-           carouselTimer?.invalidate()
-           carouselTimer = nil
-       }
+        stopCarousel()
+        carouselTimer = Timer.scheduledTimer(withTimeInterval: carouselInterval, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.currentCarouselIndex = (self.currentCarouselIndex + 1) % self.nowPlayingMoviesViewModels.count
+                }
+            }
+        }
+    }
+    
+    func stopCarousel() {
+        carouselTimer?.invalidate()
+        carouselTimer = nil
+    }
 }
 
 private extension HomeViewModel {

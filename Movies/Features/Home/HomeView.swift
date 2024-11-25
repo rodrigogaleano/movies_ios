@@ -20,12 +20,9 @@ protocol HomeViewModelProtocol: ObservableObject {
     func startCarousel()
 }
 
-
 struct HomeView<ViewModel: HomeViewModelProtocol>: View {
     
     @StateObject var viewModel: ViewModel
-    @State private var carouselTimer: Timer?
-    @State private var currentCarouselIndex = 0
     
     var body: some View {
         NavigationStack {
@@ -42,8 +39,7 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
                                 .font(.title)
                                 .fontWeight(.semibold)
                                 .padding(.horizontal)
-                            
-                            TabView(selection: $currentCarouselIndex) {
+                            TabView(selection: $viewModel.currentCarouselIndex) {
                                 ForEach(viewModel.nowPlayingMoviesViewModels.indices, id: \.self) { index in
                                     CarouselItemView(viewModel: viewModel.nowPlayingMoviesViewModels[index])
                                         .tag(index)
@@ -80,4 +76,3 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
 #Preview {
     HomeFactory.home()
 }
-
