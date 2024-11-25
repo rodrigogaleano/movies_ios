@@ -18,10 +18,10 @@ class SearchViewModel: SearchViewProtocol, ObservableObject {
     
     // MARK: - Init
     
-    let moviesRepository: MoviesRepositoryProtocol
+    private let searchMoviesUseCase: SearchMoviesUseCaseProtocol
     
-    init(moviesRepository: MoviesRepositoryProtocol) {
-        self.moviesRepository = moviesRepository
+    init(SearchMoviesUseCase: SearchMoviesUseCaseProtocol) {
+        self.searchMoviesUseCase = SearchMoviesUseCase
     }
     
     // MARK: - Public Properties
@@ -31,7 +31,6 @@ class SearchViewModel: SearchViewProtocol, ObservableObject {
             getSearchedMovies()
         }
     }
-    
     
     var searchMoviesViewModels: [any SearchedMovieItemProtocol] {
         searchedMovies.map { SearchedMovieItemViewModel(movie: $0) }
@@ -45,11 +44,11 @@ class SearchViewModel: SearchViewProtocol, ObservableObject {
             guard !self.searchText.isEmpty else { return }
             self.isLoading = true
             self.errorMessage = ""
-            self.moviesRepository.fetchSearchedMovies(query: self.searchText) { searchedMovies in
+            self.searchMoviesUseCase.execute(query: self.searchText) { searchedMovies in
                 self.searchedMovies = searchedMovies
+                self.isLoading = false
             } failure: { error in
                 self.errorMessage = error
-            } onComplete: {
                 self.isLoading = false
             }
         }

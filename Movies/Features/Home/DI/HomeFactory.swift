@@ -9,8 +9,15 @@ import SwiftUI
 
 enum HomeFactory {
     static func home() -> some View {
-        let moviesRepository = MoviesRepository(routes: MovieRoutes())
-        let viewModel = HomeViewModel(moviesRepository: moviesRepository)
+        let movieRoutes = MovieRoutes()
+        let getPopularMoviesUseCase = GetPopularMoviesUseCase(movieRoutes: movieRoutes)
+        let getTopRatedMoviesUseCase = GetTopRatedMoviesUseCase(movieRoutes: movieRoutes)
+        let getNowPlayingMoviesUseCase = GetNowPlayingMoviesUseCase(movieRoutes: movieRoutes)
+        let viewModel = HomeViewModel(
+            getPopularMoviesUseCase: getPopularMoviesUseCase,
+            getTopRatedMoviesUseCase: getTopRatedMoviesUseCase,
+            getNowPlayingMoviesUseCase: getNowPlayingMoviesUseCase
+        )
         
         return HomeView(viewModel: viewModel)
     }

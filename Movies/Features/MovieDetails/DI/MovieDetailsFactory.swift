@@ -9,8 +9,13 @@ import SwiftUI
 
 enum MovieDetailsFactory {
     static func MovieDetails(movieId: Int) -> some View {
-        let repository = MoviesRepository(routes: MovieRoutes())
-        let viewModel = MovieDetailsViewModel(movieId: movieId, repository: repository)
+        let movieRoutes = MovieRoutes()
+        let viewModel = MovieDetailsViewModel(
+            movieId: movieId,
+            getMovieCastUseCase: GetMovieCastUseCase(movieRoutes: movieRoutes),
+            getMovieDetailsUseCase: GetMovieDetailsUseCase(movieRoutes: movieRoutes),
+            getSimilarMoviesUseCase: GetSimilarMoviesUseCase(movieRoutes: movieRoutes)
+        )
         
         return MovieDetailsView(viewModel: viewModel)
     }

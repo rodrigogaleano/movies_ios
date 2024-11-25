@@ -10,11 +10,14 @@ import SwiftUI
 protocol HomeViewModelProtocol: ObservableObject {
     var isLoading: Bool { get }
     var errorMessage: String { get }
+    var currentCarouselIndex: Int { get set }
     var nowPlayingMoviesViewModels: [any CarouselItemProtocol] { get }
     var popularMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     var topRatedMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     
     func loadMovies()
+    func stopCarousel()
+    func startCarousel()
 }
 
 
@@ -65,30 +68,12 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
             .toolbarTitleDisplayMode(.inlineLarge)
             .onAppear {
                 viewModel.loadMovies()
-                startCarouselTimer()
+                viewModel.startCarousel()
             }
             .onDisappear {
-                stopCarouselTimer()
+                viewModel.stopCarousel()
             }
         }
-    }
-    
-    private func startCarouselTimer() {
-        stopCarouselTimer()
-        carouselTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { _ in
-            withAnimation(.easeInOut(duration: 1)) {
-                if currentCarouselIndex == viewModel.nowPlayingMoviesViewModels.count - 1 {
-                    currentCarouselIndex = 0
-                } else {
-                    currentCarouselIndex += 1
-                }
-            }
-        }
-    }
-    
-    private func stopCarouselTimer() {
-        carouselTimer?.invalidate()
-        carouselTimer = nil
     }
 }
 

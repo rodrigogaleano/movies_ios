@@ -16,6 +16,10 @@ class HomeViewModel {
     @Published private var popularMovies: [Movie] = []
     @Published private var topRatedMovies: [Movie] = []
     @Published private var nowPlayingMovies: [Movie] = []
+    @Published var currentCarouselIndex: Int = 0
+
+   private var carouselTimer: Timer?
+   private let carouselInterval: TimeInterval = 3.0
     
     private let getPopularMoviesUseCase: GetPopularMoviesUseCaseProtocol
     private let getTopRatedMoviesUseCase: GetTopRatedMoviesUseCaseProtocol
@@ -54,6 +58,22 @@ extension HomeViewModel: HomeViewModelProtocol {
         fetchPopularMovies()
         fetchTopRatedMovies()
     }
+    
+    func startCarousel() {
+           stopCarousel()
+           carouselTimer = Timer.scheduledTimer(withTimeInterval: carouselInterval, repeats: true) { [weak self] _ in
+               guard let self = self else { return }
+               let nextIndex = (self.currentCarouselIndex + 1) % self.nowPlayingMoviesViewModels.count
+               DispatchQueue.main.async {
+                   self.currentCarouselIndex = nextIndex
+               }
+           }
+       }
+
+       func stopCarousel() {
+           carouselTimer?.invalidate()
+           carouselTimer = nil
+       }
 }
 
 private extension HomeViewModel {

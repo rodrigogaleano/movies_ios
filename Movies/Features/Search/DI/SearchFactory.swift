@@ -9,7 +9,8 @@ import SwiftUI
 
 enum SearchFactory {
     static func search() -> some View {
-        let viewModel = SearchViewModel(moviesRepository: MoviesRepository(routes: MovieRoutes()))
+        let movieRoutes = MovieRoutes()
+        let viewModel = SearchViewModel(SearchMoviesUseCase: SearchMoviesUseCase(movieRoutes: movieRoutes))
         
         return SearchView(viewModel: viewModel)
     }
