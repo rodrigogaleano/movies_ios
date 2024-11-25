@@ -27,7 +27,7 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
 }
 
 struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     
     var body: some View {
         Group {
@@ -41,6 +41,7 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                         AsyncImage(url: viewModel.backdropURL) { image in
                             image
                                 .resizable()
+                                .scaledToFit()
                                 .mask {
                                     LinearGradient(
                                         colors: [.black, .clear],
@@ -51,8 +52,8 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                         } placeholder: {
                             ProgressView()
                                 .frame(maxWidth: .infinity)
+                                .frame(height: 300)
                         }
-                        .frame(height: 300)
                         Text(viewModel.title)
                             .font(.title)
                             .bold()
@@ -95,6 +96,7 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                             viewModels: viewModel.similarMoviesViewModels
                         )
                     }
+                    .padding(.bottom)
                 }
             }
         }

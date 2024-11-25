@@ -54,5 +54,4 @@ class SearchViewModel: SearchViewProtocol, ObservableObject {
             }
         }
     }
-    
 }

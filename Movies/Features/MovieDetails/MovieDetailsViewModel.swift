@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MovieDetailsViewModel: ObservableObject {
+class MovieDetailsViewModel {
     @Published private var isCastMembersLoading: Bool = true
     @Published private var isMovieDetailsLoading: Bool = true
     @Published private var isSimilarMoviesLoading: Bool = true
@@ -43,24 +43,14 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
     }
     
     var releaseYear: String {
-        if let releaseYear = movie?.releaseDate.split(separator: "-").first {
-            return String(releaseYear)
-        }
-        
-        return ""
+        movie?.releaseDate.split(separator: "-").first.map { String($0) } ?? ""
     }
     
     var runtime: String {
         guard let runtime = movie?.runtime else { return "" }
-        
         let hours = runtime / 60
         let minutes = runtime % 60
-        
-        if hours > 0 {
-            return "\(hours)h \(minutes)m"
-        }
-        
-        return "\(minutes)m"
+        return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
     }
     
     var voteAverage: String {
@@ -82,7 +72,7 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
     var castMembersImageURLs: [URL] {
         castMembers.compactMap { $0.profileImageURL }
     }
-
+    
     func loadContent() {
         loadMovieDetails()
         loadMovieCast()
@@ -90,36 +80,48 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
     }
 }
 
-extension MovieDetailsViewModel {
-    private func loadMovieDetails() {
-        repository.fetchMovieDetails(id: movieId) { movie in
-            self.movie = movie
-        } failure: { error in
-            self.error = error
-        } onComplete: {
-            self.isMovieDetailsLoading = false
-        }
+private extension MovieDetailsViewModel {
+    func loadMovieDetails() {
+        repository.fetchMovieDetails(
+            id: movieId,
+            success: { [weak self] movie in
+                self?.movie = movie
+            },
+            failure: { [weak self] error in
+                self?.error = error
+            },
+            onComplete: { [weak self] in
+                self?.isMovieDetailsLoading = false
+            }
+        )
     }
     
-    private func loadMovieCast() {
-        repository.fetchCastMembers(id: movieId) { castMember in
-            self.castMembers = castMember
-        } failure: { error in
-            self.error = error
-        } onComplete: {
-            self.isCastMembersLoading = false
-        }
+    func loadMovieCast() {
+        repository.fetchCastMembers(
+            id: movieId,
+            success: { [weak self] castMembers in
+                self?.castMembers = castMembers
+            },
+            failure: { [weak self] error in
+                self?.error = error
+            },
+            onComplete: { [weak self] in
+                self?.isCastMembersLoading = false
+            }
+        )
     }
     
-    private func loadSimilarMovies() {
+    func loadSimilarMovies() {
         repository.fetchSimilarMovies(
             id: movieId,
-            success: { similarMovies in
-                self.similarMovies = similarMovies
-            }, failure: { error in
-                self.error = error
-            }, onComplete: {
-                self.isSimilarMoviesLoading = false
+            success: { [weak self] similarMovies in
+                self?.similarMovies = similarMovies
+            },
+            failure: { [weak self] error in
+                self?.error = error
+            },
+            onComplete: { [weak self] in
+                self?.isSimilarMoviesLoading = false
             }
         )
     }

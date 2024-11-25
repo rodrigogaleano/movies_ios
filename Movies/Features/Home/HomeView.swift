@@ -20,9 +20,9 @@ protocol HomeViewModelProtocol: ObservableObject {
 
 struct HomeView<ViewModel: HomeViewModelProtocol>: View {
     
+    @StateObject var viewModel: ViewModel
     @State private var carouselTimer: Timer?
     @State private var currentCarouselIndex = 0
-    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         NavigationStack {

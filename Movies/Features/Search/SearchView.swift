@@ -15,7 +15,7 @@ protocol SearchViewProtocol: ObservableObject {
 }
 
 struct SearchView<ViewModel: SearchViewProtocol>: View {
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     
     var body: some View {
         NavigationStack {

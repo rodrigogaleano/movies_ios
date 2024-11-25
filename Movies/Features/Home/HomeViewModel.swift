@@ -7,7 +7,8 @@
 
 import Foundation
 
-class HomeViewModel: HomeViewModelProtocol, ObservableObject {
+
+class HomeViewModel {
     @Published var errorMessage: String = ""
     @Published private var isPopularLoading: Bool = true
     @Published private var isTopRatedLoading: Bool = true
@@ -23,9 +24,9 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
     init(moviesRepository: MoviesRepositoryProtocol) {
         self.moviesRepository = moviesRepository
     }
-    
-    // MARK: - Public Getters
-    
+}
+
+extension HomeViewModel: HomeViewModelProtocol {
     var nowPlayingMoviesViewModels: [any CarouselItemProtocol] {
         nowPlayingMovies.map { CarouselItemViewModel(movie: $0) }
     }
@@ -41,18 +42,16 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
     var isLoading: Bool {
         isPopularLoading || isTopRatedLoading || isNowPlayingLoading
     }
-
-    // MARK: - Public Methods
     
     func loadMovies() {
         fetchNowPlayingMovies()
         fetchPopularMovies()
         fetchTopRatedMovies()
     }
-    
-    // MARK: - Private Methods
-    
-    private func fetchNowPlayingMovies() {
+}
+
+private extension HomeViewModel {
+    func fetchNowPlayingMovies() {
         moviesRepository.fetchNowPlayingMovies(
             success: { [weak self] movies in
                 self?.nowPlayingMovies = movies
@@ -66,7 +65,7 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
         )
     }
     
-    private func fetchPopularMovies() {
+    func fetchPopularMovies() {
         moviesRepository.fetchPopularMovies(
             success: { [weak self] movies in
                 self?.popularMovies = movies
@@ -80,7 +79,7 @@ class HomeViewModel: HomeViewModelProtocol, ObservableObject {
         )
     }
     
-    private func fetchTopRatedMovies() {
+    func fetchTopRatedMovies() {
         moviesRepository.fetchTopRatedMovies(
             success: { [weak self] movies in
                 self?.topRatedMovies = movies

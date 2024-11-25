@@ -6,18 +6,16 @@
 //
 
 import Foundation
- 
-class CarouselItemViewModel: CarouselItemProtocol {
-    // MARK: - Init
-    
+
+class CarouselItemViewModel {
     let movie: Movie
     
     init(movie: Movie) {
         self.movie = movie
     }
-    
-    // MARK: - Public Getters
-    
+}
+
+extension CarouselItemViewModel: CarouselItemProtocol {
     var movieId: Int {
         movie.id
     }
