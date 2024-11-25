@@ -17,12 +17,18 @@ class HomeViewModel {
     @Published private var topRatedMovies: [Movie] = []
     @Published private var nowPlayingMovies: [Movie] = []
     
-    // MARK: - Init
+    private let getPopularMoviesUseCase: GetPopularMoviesUseCaseProtocol
+    private let getTopRatedMoviesUseCase: GetTopRatedMoviesUseCaseProtocol
+    private let getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCaseProtocol
     
-    private let moviesRepository: MoviesRepositoryProtocol
-    
-    init(moviesRepository: MoviesRepositoryProtocol) {
-        self.moviesRepository = moviesRepository
+    init(
+        getPopularMoviesUseCase: GetPopularMoviesUseCaseProtocol,
+        getTopRatedMoviesUseCase: GetTopRatedMoviesUseCaseProtocol,
+        getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCaseProtocol
+    ) {
+        self.getPopularMoviesUseCase = getPopularMoviesUseCase
+        self.getTopRatedMoviesUseCase = getTopRatedMoviesUseCase
+        self.getNowPlayingMoviesUseCase = getNowPlayingMoviesUseCase
     }
 }
 
@@ -52,42 +58,39 @@ extension HomeViewModel: HomeViewModelProtocol {
 
 private extension HomeViewModel {
     func fetchNowPlayingMovies() {
-        moviesRepository.fetchNowPlayingMovies(
+        getNowPlayingMoviesUseCase.execute(
             success: { [weak self] movies in
                 self?.nowPlayingMovies = movies
+                self?.isNowPlayingLoading = false
             },
             failure: { error in
                 self.errorMessage = error
-            },
-            onComplete: {
                 self.isNowPlayingLoading = false
             }
         )
     }
     
     func fetchPopularMovies() {
-        moviesRepository.fetchPopularMovies(
+        getPopularMoviesUseCase.execute(
             success: { [weak self] movies in
                 self?.popularMovies = movies
+                self?.isPopularLoading = false
             },
             failure: { error in
                 self.errorMessage = error
-            },
-            onComplete: {
                 self.isPopularLoading = false
             }
         )
     }
     
     func fetchTopRatedMovies() {
-        moviesRepository.fetchTopRatedMovies(
+        getTopRatedMoviesUseCase.execute(
             success: { [weak self] movies in
                 self?.topRatedMovies = movies
+                self?.isTopRatedLoading = false
             },
             failure: { error in
                 self.errorMessage = error
-            },
-            onComplete: {
                 self.isTopRatedLoading = false
             }
         )

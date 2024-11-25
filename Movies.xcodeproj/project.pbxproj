@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		D6085A842CDBFBCB00780372 /* CarouselItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6085A832CDBFBCB00780372 /* CarouselItemView.swift */; };
 		D6085A862CDBFD5000780372 /* CarouselItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6085A852CDBFD4B00780372 /* CarouselItemViewModel.swift */; };
+		D608F8AE2CF4F8F700DF9D8B /* GetNowPlayingMoviesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608F8AD2CF4F8EC00DF9D8B /* GetNowPlayingMoviesUseCase.swift */; };
+		D608F8B02CF4F91A00DF9D8B /* GetTopRatedMoviesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608F8AF2CF4F91400DF9D8B /* GetTopRatedMoviesUseCase.swift */; };
+		D608F8B22CF4FFB200DF9D8B /* GetPopularMoviesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D608F8B12CF4FFAB00DF9D8B /* GetPopularMoviesUseCase.swift */; };
 		D60B9C992CCEE80A0081EA71 /* APIHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60B9C982CCEE80A0081EA71 /* APIHost.swift */; };
 		D60B9C9B2CCEEBA10081EA71 /* APITarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60B9C9A2CCEEBA10081EA71 /* APITarget.swift */; };
 		D60B9CA62CCEF03C0081EA71 /* MovieRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60B9CA52CCEF03C0081EA71 /* MovieRoutes.swift */; };
@@ -45,6 +48,9 @@
 /* Begin PBXFileReference section */
 		D6085A832CDBFBCB00780372 /* CarouselItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselItemView.swift; sourceTree = "<group>"; };
 		D6085A852CDBFD4B00780372 /* CarouselItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselItemViewModel.swift; sourceTree = "<group>"; };
+		D608F8AD2CF4F8EC00DF9D8B /* GetNowPlayingMoviesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNowPlayingMoviesUseCase.swift; sourceTree = "<group>"; };
+		D608F8AF2CF4F91400DF9D8B /* GetTopRatedMoviesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTopRatedMoviesUseCase.swift; sourceTree = "<group>"; };
+		D608F8B12CF4FFAB00DF9D8B /* GetPopularMoviesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPopularMoviesUseCase.swift; sourceTree = "<group>"; };
 		D60B9C982CCEE80A0081EA71 /* APIHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHost.swift; sourceTree = "<group>"; };
 		D60B9C9A2CCEEBA10081EA71 /* APITarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITarget.swift; sourceTree = "<group>"; };
 		D60B9CA52CCEF03C0081EA71 /* MovieRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRoutes.swift; sourceTree = "<group>"; };
@@ -274,6 +280,9 @@
 		D6EFAD352CF4D09800C9B893 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				D608F8B12CF4FFAB00DF9D8B /* GetPopularMoviesUseCase.swift */,
+				D608F8AF2CF4F91400DF9D8B /* GetTopRatedMoviesUseCase.swift */,
+				D608F8AD2CF4F8EC00DF9D8B /* GetNowPlayingMoviesUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -426,12 +435,15 @@
 				D63887DD2CE68DEF00B61CED /* SearchedMovieItemView.swift in Sources */,
 				D696B8202CE3E25E0042620E /* SearchViewModel.swift in Sources */,
 				D60FC29C2C5C648C002C97BE /* MoviesApp.swift in Sources */,
+				D608F8B02CF4F91A00DF9D8B /* GetTopRatedMoviesUseCase.swift in Sources */,
 				D696B8182CE3A0160042620E /* CastMember.swift in Sources */,
+				D608F8AE2CF4F8F700DF9D8B /* GetNowPlayingMoviesUseCase.swift in Sources */,
 				D6E09C252CE976C8005DB742 /* ErrorView.swift in Sources */,
 				D6FF1BA92CCEFB8100778CF5 /* APIProvider.swift in Sources */,
 				D60B9CA62CCEF03C0081EA71 /* MovieRoutes.swift in Sources */,
 				D6E09C232CE96D65005DB742 /* InstructionView.swift in Sources */,
 				D60B9C9B2CCEEBA10081EA71 /* APITarget.swift in Sources */,
+				D608F8B22CF4FFB200DF9D8B /* GetPopularMoviesUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
