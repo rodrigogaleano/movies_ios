@@ -99,6 +99,10 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
         crewMembers.map { CrewMemberItemViewModel(crewMember: $0)}
     }
     
+    var genres: [String] {
+        movie?.genres?.map { $0.name } ?? []
+    }
+    
     func loadContent() {
         loadMovieDetails()
         loadMovieCast()

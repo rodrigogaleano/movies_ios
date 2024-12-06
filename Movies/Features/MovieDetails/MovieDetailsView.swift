@@ -19,13 +19,15 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var voteAverage: String { get }
     var errorMessage: String { get }
     
+    var genres: [String] { get }
+    
     var posterURL: URL? { get }
     var backdropURL: URL? { get }
     var castMembersImageURLs: [URL] { get }
     
+    var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     var castMembersViewModels: [any CastMemberItemViewModelProtocol] { get }
     var crewMembersViewModels: [any CrewMemberItemViewModelProtocol] { get }
-    var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     
     func loadContent()
 }
@@ -102,16 +104,23 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                                     LazyVStack(alignment: .leading) {
                                         ForEach(viewModel.castMembersViewModels.indices, id: \.self) { index in
                                             CastMemberItemView(viewModel: viewModel.castMembersViewModels[index])
+                                            Divider()
                                         }
                                     }
                                 case 1:
                                     LazyVStack(alignment: .leading) {
                                         ForEach(viewModel.crewMembersViewModels.indices, id: \.self) { index in
                                             CrewMemberItemView(viewModel: viewModel.crewMembersViewModels[index])
+                                            Divider()
                                         }
                                     }
                                 case 2:
-                                    Text("Genres")
+                                    LazyVStack(alignment: .leading) {
+                                        ForEach(viewModel.genres.indices, id: \.self) { index in
+                                            Text(viewModel.genres[index])
+                                            Divider()
+                                        }
+                                    }
                                 default:
                                     LoadingView()
                                 }
