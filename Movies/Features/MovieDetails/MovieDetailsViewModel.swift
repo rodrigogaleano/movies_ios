@@ -94,6 +94,10 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
     var castMembersViewModels: [any CastMemberItemViewModelProtocol] {
         castMembers.map { CastMemberItemViewModel(castMember: $0)}
     }
+   
+    var crewMembersViewModels: [any CrewMemberItemViewModelProtocol] {
+        crewMembers.map { CrewMemberItemViewModel(crewMember: $0)}
+    }
     
     func loadContent() {
         loadMovieDetails()

@@ -24,6 +24,7 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var castMembersImageURLs: [URL] { get }
     
     var castMembersViewModels: [any CastMemberItemViewModelProtocol] { get }
+    var crewMembersViewModels: [any CrewMemberItemViewModelProtocol] { get }
     var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     
     func loadContent()
@@ -104,7 +105,11 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                                         }
                                     }
                                 case 1:
-                                    Text("Crew")
+                                    LazyVStack(alignment: .leading) {
+                                        ForEach(viewModel.crewMembersViewModels.indices, id: \.self) { index in
+                                            CrewMemberItemView(viewModel: viewModel.crewMembersViewModels[index])
+                                        }
+                                    }
                                 case 2:
                                     Text("Genres")
                                 default:
