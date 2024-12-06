@@ -8,22 +8,23 @@
 import Foundation
 
 class MovieDetailsViewModel {
-    @Published private var isCastMembersLoading: Bool = true
+    @Published private var isCreditsLoading: Bool = true
     @Published private var isMovieDetailsLoading: Bool = true
     @Published private var isSimilarMoviesLoading: Bool = true
     @Published var error: String = ""
     @Published var movie: Movie?
     @Published var similarMovies: [Movie] = []
     @Published var castMembers: [CastMember] = []
+    @Published var crewMembers: [CrewMember] = []
     
     private let movieId: Int
-    private let getMovieCastUseCase: GetMovieCastUseCaseProtocol
+    private let getMovieCastUseCase: GetMovieCreditsUseCaseProtocol
     private let getMovieDetailsUseCase: GetMovieDetailsUseCaseProtocol
     private let getSimilarMoviesUseCase: GetSimilarMoviesUseCaseProtocol
     
     init(
         movieId: Int,
-        getMovieCastUseCase: GetMovieCastUseCaseProtocol,
+        getMovieCastUseCase: GetMovieCreditsUseCaseProtocol,
         getMovieDetailsUseCase: GetMovieDetailsUseCaseProtocol,
         getSimilarMoviesUseCase: GetSimilarMoviesUseCaseProtocol
     ) {
@@ -35,12 +36,16 @@ class MovieDetailsViewModel {
 }
 
 extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
+    var director: String {
+        crewMembers.first(where: { $0.job == "Director" })?.name ?? ""
+    }
+    
     var errorMessage: String {
         self.error
     }
     
     var isLoading: Bool {
-        isCastMembersLoading || isMovieDetailsLoading || isSimilarMoviesLoading
+        isCreditsLoading || isMovieDetailsLoading || isSimilarMoviesLoading
     }
     
     var title: String {
@@ -66,6 +71,10 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
         String(format: "%.1f", movie?.voteAverage ?? 0)
     }
     
+    var posterURL: URL? {
+        movie?.posterUrl
+    }
+    
     var backdropURL: URL? {
         movie?.backdropUrl
     }
@@ -80,6 +89,10 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
     
     var castMembersImageURLs: [URL] {
         castMembers.compactMap { $0.profileImageURL }
+    }
+    
+    var castMembersViewModels: [any CastMemberItemViewModelProtocol] {
+        castMembers.map { CastMemberItemViewModel(castMember: $0)}
     }
     
     func loadContent() {
@@ -103,13 +116,14 @@ private extension MovieDetailsViewModel {
     func loadMovieCast() {
         getMovieCastUseCase.execute(
             movieId: movieId,
-            success: { [weak self] castMembers in
-                self?.castMembers = castMembers
-                self?.isCastMembersLoading = false
+            success: { [weak self] credits in
+                self?.castMembers = credits.cast
+                self?.crewMembers = credits.crew
+                self?.isCreditsLoading = false
             },
             failure: { [weak self] error in
                 self?.error = error
-                self?.isCastMembersLoading = false
+                self?.isCreditsLoading = false
             }
         )
     }

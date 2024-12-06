@@ -12,7 +12,7 @@ enum MovieDetailsFactory {
         let movieRoutes = MovieRoutes()
         let viewModel = MovieDetailsViewModel(
             movieId: movieId,
-            getMovieCastUseCase: GetMovieCastUseCase(movieRoutes: movieRoutes),
+            getMovieCastUseCase: GetMovieCreditsUseCase(movieRoutes: movieRoutes),
             getMovieDetailsUseCase: GetMovieDetailsUseCase(movieRoutes: movieRoutes),
             getSimilarMoviesUseCase: GetSimilarMoviesUseCase(movieRoutes: movieRoutes)
         )

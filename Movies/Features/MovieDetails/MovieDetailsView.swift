@@ -13,14 +13,17 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var genre: String { get }
     var title: String { get }
     var runtime: String { get }
+    var director: String { get }
     var overview: String { get }
     var releaseYear: String { get }
     var voteAverage: String { get }
     var errorMessage: String { get }
     
+    var posterURL: URL? { get }
     var backdropURL: URL? { get }
     var castMembersImageURLs: [URL] { get }
     
+    var castMembersViewModels: [any CastMemberItemViewModelProtocol] { get }
     var similarMoviesViewModels: [any MovieItemViewModelProtocol] { get }
     
     func loadContent()
@@ -28,6 +31,7 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
 
 struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
     @StateObject var viewModel: ViewModel
+    @State var tabSelectedValue = 0
     
     var body: some View {
         Group {
@@ -37,66 +41,79 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                 ErrorView(errorMessage: viewModel.errorMessage)
             } else {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        AsyncImage(url: viewModel.backdropURL) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .mask {
-                                    LinearGradient(
-                                        colors: [.black, .clear],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                }
-                        } placeholder: {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 300)
-                        }
-                        Text(viewModel.title)
-                            .font(.title)
-                            .bold()
-                            .padding(.horizontal)
-                        HStack(spacing: 10) {
-                            DetailBadgeView(text: viewModel.genre)
-                            DetailBadgeView(text: viewModel.releaseYear)
-                            DetailBadgeView(text: viewModel.runtime)
-                            DetailBadgeView(text: viewModel.voteAverage, icon: Image(systemName: "star.fill"))
-                            Spacer()
-                        }
-                        .font(.subheadline)
-                        .padding(.horizontal)
-                        Text(viewModel.overview)
-                            .padding(.horizontal)
-                        Text("Cast")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .padding(.horizontal)
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(viewModel.castMembersImageURLs.indices, id: \.self) { index in
-                                    AsyncImage(url: viewModel.castMembersImageURLs[index]) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 92, height: 92)
-                                            .cornerRadius(8)
-                                    } placeholder: {
-                                        ProgressView()
-                                            .frame(width: 92, height: 92)
+                    VStack(alignment: .leading) {
+                        GeometryReader { geometry in
+                            AsyncImage(url: viewModel.backdropURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: geometry.size.width, height: 300)
+                                    .mask {
+                                        LinearGradient(
+                                            colors: [.black, .clear],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
                                     }
-                                    .padding(.leading, index == 0 ? 16 : 0)
-                                    .padding(.trailing, index == viewModel.castMembersImageURLs.count - 1 ? 16 : 0)
+                            } placeholder: {
+                                ProgressView()
+                                    .frame(width: geometry.size.width, height: 300)
+                            }
+                        }
+                        .frame(height: 300)
+                        VStack(alignment: .leading, spacing: 20) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(viewModel.title)
+                                        .font(.title2)
+                                        .bold()
+                                    Text(viewModel.releaseYear + " - DIRECTED BY")
+                                    Text(viewModel.director)
+                                        .bold()
+                                    Text(viewModel.runtime)
+                                    Text(viewModel.voteAverage)
+                                }
+                                Spacer()
+                                AsyncImage(url: viewModel.posterURL) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .cornerRadius(8)
+                                        .frame(width: 140)
+                                } placeholder: {
+                                    ProgressView()
+                                        .frame(width: 140)
+                                }
+                            }
+                            Text(viewModel.overview)
+                            VStack {
+                                Picker(selection: $tabSelectedValue, label: Text("Infos")) {
+                                    Text("Cast")
+                                        .tag(0)
+                                    Text("Crew")
+                                        .tag(1)
+                                    Text("Genres")
+                                        .tag(2)
+                                }
+                                .pickerStyle(.segmented)
+                                switch tabSelectedValue {
+                                case 0:
+                                    LazyVStack(alignment: .leading) {
+                                        ForEach(viewModel.castMembersViewModels.indices, id: \.self) { index in
+                                            CastMemberItemView(viewModel: viewModel.castMembersViewModels[index])
+                                        }
+                                    }
+                                case 1:
+                                    Text("Crew")
+                                case 2:
+                                    Text("Genres")
+                                default:
+                                    LoadingView()
                                 }
                             }
                         }
-                        MoviesSectionView(
-                            title: "Similar Movies",
-                            viewModels: viewModel.similarMoviesViewModels
-                        )
+                        .padding(.horizontal)
                     }
-                    .padding(.bottom)
                 }
             }
         }

@@ -1,18 +1,18 @@
 //
-//  GetMovieCastUseCase.swift
+//  GetMovieCreditsUseCase.swift
 //  Movies
 //
 //  Created by Rodrigo Galeano on 25/11/24.
 //
 
-protocol GetMovieCastUseCaseProtocol {
-    typealias Success = ([CastMember]) -> Void
+protocol GetMovieCreditsUseCaseProtocol {
+    typealias Success = (Credits) -> Void
     typealias Failure = (String) -> Void
     
     func execute(movieId: Int, success: Success?, failure: Failure?)
 }
 
-class GetMovieCastUseCase: GetMovieCastUseCaseProtocol {
+class GetMovieCreditsUseCase: GetMovieCreditsUseCaseProtocol {
     private let movieRoutes: MovieRoutesProtocol
     
     init(movieRoutes: MovieRoutesProtocol) {
@@ -24,9 +24,9 @@ class GetMovieCastUseCase: GetMovieCastUseCaseProtocol {
             switch (result) {
             case .success(let response):
                 do {
-                    let castMembers = try response.map(CastMemberResult.self)
+                    let credits = try response.map(Credits.self)
                     
-                    success?(castMembers.cast)
+                    success?(credits)
                 } catch {
                     failure?("Error decoding data")
                 }
