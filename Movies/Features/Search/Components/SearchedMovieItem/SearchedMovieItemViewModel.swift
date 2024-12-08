@@ -27,4 +27,8 @@ extension SearchedMovieItemViewModel: SearchedMovieItemProtocol {
     var movieTitle: String {
         movie.title
     }
+    
+    var overview: String {
+        movie.overview
+    }
 }

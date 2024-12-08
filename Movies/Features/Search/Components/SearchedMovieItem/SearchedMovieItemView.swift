@@ -10,6 +10,7 @@ import SwiftUI
 protocol SearchedMovieItemProtocol {
     var movieId: Int { get }
     var imageUrl: URL? { get }
+    var overview: String { get }
     var movieTitle: String { get }
 }
 
@@ -31,14 +32,18 @@ struct SearchedMovieItemView: View {
                     ProgressView()
                         .frame(width: 96, height: 96)
                 }
-                Text(viewModel.movieTitle)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.leading)
-                    .foregroundStyle(.black)
-                    .padding(.horizontal, 8)
+                VStack(alignment: .leading) {
+                    Text(viewModel.movieTitle)
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .multilineTextAlignment(.leading)
+                    Text(viewModel.overview)
+                        .lineLimit(3)
+                        .multilineTextAlignment(.leading)
+                }
                 Spacer()
             }
+            .foregroundStyle(.black)
             .frame(height: 96)
             .padding(.vertical)
         }

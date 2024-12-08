@@ -19,13 +19,7 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                TextField("Search for a movie", text: Binding(
-                    get: { viewModel.searchText },
-                    set: { viewModel.searchText = $0 }
-                ))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.top)
+            Group{
                 if viewModel.isLoading {
                     LoadingView()
                 }
@@ -38,18 +32,24 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
                 }
                 else {
                     ScrollView {
-                        ForEach(viewModel.searchMoviesViewModels.indices, id: \.self) { index in
-                            let currentViewModel = viewModel.searchMoviesViewModels[index]
-                            
-                            SearchedMovieItemView(viewModel: currentViewModel)
+                        LazyVStack(spacing: 20) {
+                            ForEach(viewModel.searchMoviesViewModels.indices, id: \.self) { index in
+                                let currentViewModel = viewModel.searchMoviesViewModels[index]
+                                
+                                SearchedMovieItemView(viewModel: currentViewModel)
+                                Divider()
+                            }
                         }
                     }
                 }
             }
-            .padding()
+            .padding(.horizontal)
             .navigationTitle("Search")
             .toolbarTitleDisplayMode(.inlineLarge)
-            .edgesIgnoringSafeArea(.bottom) 
+            .searchable(text: Binding(
+                get: { viewModel.searchText },
+                set: { viewModel.searchText = $0 }
+            ))
         }
     }
 }
