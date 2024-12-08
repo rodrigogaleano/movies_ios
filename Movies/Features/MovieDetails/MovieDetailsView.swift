@@ -74,7 +74,11 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                                     Text(viewModel.director)
                                         .bold()
                                     Text(viewModel.runtime)
-                                    Text(viewModel.voteAverage)
+                                    HStack {
+                                        Image(systemName: "star.fill")
+                                            .foregroundStyle(.yellow)
+                                        Text(viewModel.voteAverage)
+                                    }
                                 }
                                 Spacer()
                                 AsyncImage(url: viewModel.posterURL) { image in
