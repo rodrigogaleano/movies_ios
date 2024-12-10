@@ -6,7 +6,7 @@
 //
 
 protocol GetMovieDetailsUseCaseProtocol {
-    typealias Success = (Movie) -> Void
+    typealias Success = (MovieDetails) -> Void
     typealias Failure = (String) -> Void
     
     func execute(movieId: Int, success: Success?, failure: Failure?)
@@ -24,7 +24,7 @@ class GetMovieDetailsUseCase: GetMovieDetailsUseCaseProtocol {
             switch (result) {
             case .success(let response):
                 do {
-                    let movie = try response.map(Movie.self)
+                    let movie = try response.map(MovieDetails.self)
                     
                     success?(movie)
                 } catch {

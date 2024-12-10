@@ -12,7 +12,7 @@ class MovieDetailsViewModel {
     @Published private var isMovieDetailsLoading: Bool = true
     @Published private var isSimilarMoviesLoading: Bool = true
     @Published var error: String = ""
-    @Published var movie: Movie?
+    @Published var movie: MovieDetails?
     @Published var similarMovies: [Movie] = []
     @Published var castMembers: [CastMember] = []
     @Published var crewMembers: [CrewMember] = []
@@ -101,6 +101,18 @@ extension MovieDetailsViewModel: MovieDetailViewModelProtocol {
     
     var genres: [String] {
         movie?.genres?.map { $0.name } ?? []
+    }
+    
+    var productionCompanies: [String] {
+        movie?.productionCompanies?.map { $0.name } ?? []
+    }
+    
+    var countries: [String] {
+        movie?.originCountry?.map { $0 } ?? []
+    }
+    
+    var originalLanguage: String {
+        movie?.originalLanguage?.localizedUppercase ?? ""
     }
     
     func loadContent() {

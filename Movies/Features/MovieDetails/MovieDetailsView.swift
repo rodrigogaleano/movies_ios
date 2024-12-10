@@ -15,11 +15,14 @@ protocol MovieDetailViewModelProtocol: ObservableObject {
     var runtime: String { get }
     var director: String { get }
     var overview: String { get }
+    var countries: [String] { get }
     var releaseYear: String { get }
     var voteAverage: String { get }
     var errorMessage: String { get }
+    var originalLanguage: String { get }
     
     var genres: [String] { get }
+    var productionCompanies: [String] { get }
     
     var posterURL: URL? { get }
     var backdropURL: URL? { get }
@@ -93,42 +96,80 @@ struct MovieDetailsView<ViewModel: MovieDetailViewModelProtocol>: View {
                                 }
                             }
                             Text(viewModel.overview)
-                            VStack {
-                                Picker(selection: $tabSelectedValue, label: Text("Infos")) {
-                                    Text("Cast")
-                                        .tag(0)
-                                    Text("Crew")
-                                        .tag(1)
-                                    Text("Genres")
-                                        .tag(2)
-                                }
-                                .pickerStyle(.segmented)
-                                switch tabSelectedValue {
-                                case 0:
-                                    LazyVStack(alignment: .leading) {
-                                        ForEach(viewModel.castMembersViewModels.indices, id: \.self) { index in
-                                            CastMemberItemView(viewModel: viewModel.castMembersViewModels[index])
-                                            Divider()
-                                        }
-                                    }
-                                case 1:
-                                    LazyVStack(alignment: .leading) {
-                                        ForEach(viewModel.crewMembersViewModels.indices, id: \.self) { index in
-                                            CrewMemberItemView(viewModel: viewModel.crewMembersViewModels[index])
-                                            Divider()
-                                        }
-                                    }
-                                case 2:
-                                    LazyVStack(alignment: .leading) {
-                                        ForEach(viewModel.genres.indices, id: \.self) { index in
-                                            Text(viewModel.genres[index])
-                                            Divider()
-                                        }
-                                    }
-                                default:
-                                    LoadingView()
-                                }
+                            Picker(selection: $tabSelectedValue, label: Text("Infos")) {
+                                Text("Cast")
+                                    .tag(0)
+                                Text("Crew")
+                                    .tag(1)
+                                Text("Details")
+                                    .tag(2)
+                                Text("Genres")
+                                    .tag(3)
                             }
+                            .pickerStyle(.segmented)
+                            switch tabSelectedValue {
+                            case 0:
+                                LazyVStack(alignment: .leading) {
+                                    ForEach(viewModel.castMembersViewModels.indices, id: \.self) { index in
+                                        CastMemberItemView(viewModel: viewModel.castMembersViewModels[index])
+                                        Divider()
+                                    }
+                                }
+                            case 1:
+                                LazyVStack(alignment: .leading) {
+                                    ForEach(viewModel.crewMembersViewModels.indices, id: \.self) { index in
+                                        CrewMemberItemView(viewModel: viewModel.crewMembersViewModels[index])
+                                        Divider()
+                                    }
+                                }
+                            case 2:
+                                LazyVStack(alignment: .leading) {
+                                    Section(
+                                        header: Text("Production Companies")
+                                            .fontWeight(.semibold)
+                                            .padding(.vertical)
+                                    ) {
+                                        Divider()
+                                        ForEach(viewModel.productionCompanies, id: \.self) { company in
+                                            Text(company)
+                                            Divider()
+                                        }
+                                    }
+                                    Section(
+                                        header: Text("Countries")
+                                            .fontWeight(.semibold)
+                                            .padding(.vertical)
+                                    ) {
+                                        Divider()
+                                        ForEach(viewModel.countries, id: \.self) { country in
+                                            Text(country)
+                                            Divider()
+                                        }
+                                    }
+                                    Section(
+                                        header: Text("Original Language")
+                                            .fontWeight(.semibold)
+                                            .padding(.vertical)
+                                    ) {
+                                        Divider()
+                                        Text(viewModel.originalLanguage)
+                                        Divider()
+                                    }
+                                }
+                            case 3:
+                                LazyVStack(alignment: .leading) {
+                                    ForEach(viewModel.genres.indices, id: \.self) { index in
+                                        Text(viewModel.genres[index])
+                                        Divider()
+                                    }
+                                }
+                            default:
+                                LoadingView()
+                            }
+                            MoviesSectionView(
+                                title: "Similar Movies",
+                                viewModels: viewModel.similarMoviesViewModels
+                            )
                         }
                         .padding(.horizontal)
                     }
